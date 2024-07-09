@@ -1,6 +1,7 @@
 package com.example.quizzzin.models.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -14,7 +15,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "date_of_adding")
+    @Column(name = "date_of_adding", updatable = false)
     private LocalDateTime dateOfAdding;
     @Size(min = 1, max = 500)
     @Column(name = "text")

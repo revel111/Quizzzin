@@ -1,6 +1,8 @@
 package com.example.quizzzin.models.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -16,11 +18,14 @@ public class User {
     @Column(name = "id")
     private Long id;
     @Size(min = 2, max = 50)
+    @NotBlank
     @Column(name = "name")
     private String name;
     @Size(min = 2, max = 50)
+    @NotBlank
     @Column(name = "surname")
     private String surname;
+    @Email
     @Column(name = "email", unique = true) // ?
     private String email;
     @Column(name = "date_of_birth")

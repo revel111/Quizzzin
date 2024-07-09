@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{boilerplates/layout}">
+<head>
+    <title>Add wordle</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div>
+        <form method="post" th:action="@{/admin/add-wordle}" th:object="${wordleDTO}">
+            <label>
+                Enter title
+                <br>
+                <input type="text" th:field="*{title}" placeholder="Enter the title"/>
+                <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}" class="error"></p>
+            </label>
+            <br>
+
+            <label>
+                Enter description
+                <br>
+                <input type="text" th:field="*{description}" placeholder="Enter the description"/>
+                <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="error"></p>
+            </label>
+            <br>
+
+            <label>
+                Enter answer
+                <br>
+                <input type="text" th:field="*{answer}" placeholder="Enter the answer"/>
+                <p th:if="${#fields.hasErrors('answer')}" th:errors="*{answer}" class="error"></p>
+            </label>
+            <br>
+
+            <label>
+                Choose difficulty
+                <br>
+                <select th:field="*{difficultyType}">
+                    <option th:each="difficulty : ${difficulties}"
+                            th:value="${difficulty}"
+                            th:text="${difficulty}">
+                    </option>
+                </select>
+            </label>
+            <br>
+
+            <button type="submit">Add</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

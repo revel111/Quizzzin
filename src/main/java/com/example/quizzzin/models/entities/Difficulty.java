@@ -1,5 +1,6 @@
 package com.example.quizzzin.models.entities;
 
+import com.example.quizzzin.enums.DifficultyType;
 import com.example.quizzzin.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -16,7 +17,7 @@ public class Difficulty {
     private Long id;
     @Enumerated(EnumType.STRING)
     @Column(name = "name")
-    private RoleType name;
+    private DifficultyType name;
     @OneToMany(mappedBy = "difficulty")
     private Set<AbstractPuzzle> puzzles;
 }
