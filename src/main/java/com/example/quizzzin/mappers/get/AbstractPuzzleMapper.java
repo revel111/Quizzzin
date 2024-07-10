@@ -2,6 +2,7 @@ package com.example.quizzzin.mappers.get;
 
 import com.example.quizzzin.enums.DifficultyType;
 import com.example.quizzzin.mappers.add.RiddleMapper;
+import com.example.quizzzin.models.dto.FeedViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.dto.LeaderboardDTO;
 import com.example.quizzzin.models.dto.get.ViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.entities.AbstractPuzzle;
@@ -22,7 +23,10 @@ public interface AbstractPuzzleMapper {
     @Mapping(source = "difficulty.name", target = "difficultyType")
     @Mapping(target = "rating", expression = "java(calculateAverageRating(abstractPuzzle.getPuzzleRatings()))")
     @Mapping(target = "leaderboardDTOList", expression = "java(mapUsersScores(abstractPuzzle.getPuzzleScores()))")
-    ViewAbstractPuzzleDTO toDTO(AbstractPuzzle abstractPuzzle);
+    ViewAbstractPuzzleDTO toViewDTO(AbstractPuzzle abstractPuzzle);
+
+    @Mapping(source = "difficulty.name", target = "difficultyType")
+    FeedViewAbstractPuzzleDTO toFeedViewDTO(AbstractPuzzle abstractPuzzle);
 
     default DifficultyType map(Difficulty difficulty) {
         return difficulty.getName();

@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{boilerplates/layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Puzzle feed</title>
 </head>
 <body>
+<main layout:fragment="content">
+    <div>
+        <div th:each="puzzle : ${puzzles}">
+            <a th:href="@{'/puzzles/' + ${puzzle.id()}}" th:data-id="${puzzle.id()}" th:text="${puzzle.title()}"></a>
+            <br>
+            <p th:text="|Difficulty: ${puzzle.difficultyType()}|"></p>
+        </div>
+    </div>
 
+    <div th:if="${totalPages > 1}">
+        <!--        <p th:text="${totalItems}"></p>-->
+
+        <div>
+            <span th:each="i : ${#numbers.sequence(1, totalPages)}">
+                <a th:if="${currentPage != i}" th:href="@{'/puzzles/page/' + ${i}}">[[${i}]]</a>
+                <span th:unless="${currentPage != i}">[[${i}]]</span>
+            </span>
+        </div>
+
+        <div>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/puzzles/page/' + ${currentPage + 1}}">Next</a>
+            <span th:unless="${currentPage < totalPages}">Next</span>
+        </div>
+
+        <div>
+            <a th:if="${currentPage < totalPages}" th:href="@{'/puzzles/page/' + ${totalPages}}">Last</a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+        </div>
+
+        <div>
+            <a th:if="${currentPage != 1}" th:href="@{'/puzzles/page/' + ${currentPage - 1}}">Previous</a>
+            <span th:if="${currentPage == 1}">Previous</span>
+        </div>
+
+    </div>
+</main>
 </body>
 </html>
