@@ -1,11 +1,9 @@
-package com.example.quizzzin.controllers;
+package com.example.quizzzin.controllers.view;
 
 import com.example.quizzzin.enums.DifficultyType;
-import com.example.quizzzin.models.dto.RiddleDTO;
-import com.example.quizzzin.models.dto.WordleDTO;
+import com.example.quizzzin.models.dto.add.AddRiddleDTO;
+import com.example.quizzzin.models.dto.add.AddWordleDTO;
 import com.example.quizzzin.models.entities.AbstractPuzzle;
-import com.example.quizzzin.models.entities.Riddle;
-import com.example.quizzzin.models.entities.Wordle;
 import com.example.quizzzin.services.RiddleService;
 import com.example.quizzzin.services.WordleService;
 import jakarta.validation.Valid;
@@ -29,13 +27,13 @@ public class AdminController {
 
     @GetMapping("/add-wordle")
     public String addWordle(Model model) {
-        model.addAttribute("wordleDTO", new WordleDTO());
+        model.addAttribute("wordleDTO", new AddWordleDTO());
         model.addAttribute("difficulties", DifficultyType.values());
         return "admin/add-wordle";
     }
 
     @PostMapping("/add-wordle")
-    public String addRiddle(@Valid @ModelAttribute("wordleDTO") WordleDTO wordleDTO,
+    public String addWordle(@Valid @ModelAttribute("wordleDTO") AddWordleDTO wordleDTO,
                             BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "redirect:/admin/add-wordle";
@@ -48,13 +46,13 @@ public class AdminController {
 
     @GetMapping("/add-riddle")
     public String addRiddle(Model model) {
-        model.addAttribute("riddleDTO", new RiddleDTO());
+        model.addAttribute("riddleDTO", new AddRiddleDTO());
         model.addAttribute("difficulties", DifficultyType.values());
         return "admin/add-riddle";
     }
 
     @PostMapping("/add-riddle")
-    public String addRiddle(@Valid @ModelAttribute("riddleDTO") RiddleDTO riddleDTO,
+    public String addRiddle(@Valid @ModelAttribute("riddleDTO") AddRiddleDTO riddleDTO,
                             BindingResult bindingResult) {
         if (bindingResult.hasErrors())
             return "redirect:/admin/add-riddle";

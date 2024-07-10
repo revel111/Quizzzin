@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{boilerplates/layout}">
+<head>
+    <title>Admin page</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div th:if="${abstractPuzzleDTO}">
+        <p th:text="|Title: ${abstractPuzzleDTO.title}|"></p>
+        <p th:text="|Description: ${abstractPuzzleDTO.description}|"></p>
+        <p th:text="|Date of Adding: ${abstractPuzzleDTO.dateOfAdding}|"></p>
+        <p th:text="|Difficulty: ${abstractPuzzleDTO.difficultyType}|"></p>
+        <p th:text="|Puzzle Rating: ${abstractPuzzleDTO.rating}|"></p>
+        <p th:text="|Puzzle Scores: ${abstractPuzzleDTO.leaderboardDTOList}|"></p>
+    </div>
+</main>
+</body>
+</html>

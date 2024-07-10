@@ -1,7 +1,7 @@
 package com.example.quizzzin.services;
 
-import com.example.quizzzin.mappers.RiddleMapper;
-import com.example.quizzzin.models.dto.RiddleDTO;
+import com.example.quizzzin.mappers.add.RiddleMapper;
+import com.example.quizzzin.models.dto.add.AddRiddleDTO;
 import com.example.quizzzin.models.entities.Riddle;
 import com.example.quizzzin.repositories.RiddleRepository;
 import lombok.AllArgsConstructor;
@@ -14,13 +14,13 @@ public class RiddleService {
     private final DifficultyService difficultyService;
     private final RiddleMapper riddleMapper = RiddleMapper.INSTANCE;
 
-    public Riddle saveRiddle(RiddleDTO riddleDTO) {
-        Riddle riddle = toRiddle(riddleDTO);
-        riddle.setDifficulty(difficultyService.getDifficultyByName(riddleDTO.getDifficultyType()));
+    public Riddle saveRiddle(AddRiddleDTO addRiddleDTO) {
+        Riddle riddle = toRiddle(addRiddleDTO);
+        riddle.setDifficulty(difficultyService.getDifficultyByName(addRiddleDTO.getDifficultyType()));
         return riddleRepository.save(riddle);
     }
 
-    private Riddle toRiddle(RiddleDTO riddleDTO) {
-        return riddleMapper.toRiddle(riddleDTO);
+    private Riddle toRiddle(AddRiddleDTO addRiddleDTO) {
+        return riddleMapper.toRiddle(addRiddleDTO);
     }
 }

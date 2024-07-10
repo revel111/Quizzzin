@@ -21,6 +21,10 @@ public class User {
     @NotBlank
     @Column(name = "name")
     private String name;
+    @Size(min = 1, max = 25)
+    @NotBlank
+    @Column(name = "nickname")
+    private String nickname;
     @Size(min = 2, max = 50)
     @NotBlank
     @Column(name = "surname")

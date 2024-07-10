@@ -14,7 +14,7 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: classpath:sql/necessary_data.sql
+      data-locations: classpath:sql/necessary_data.sql, classpath:sql/dummy/puzzles.sql
 server:
   servlet:
     context-path: /quizzzin
