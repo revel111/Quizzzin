@@ -7,11 +7,22 @@
 </head>
 <body>
 <main layout:fragment="content">
+    <!--    <div>-->
+    <!--        <a th:href="@{|/page/${currentPage}?sortF='difficultyType'&sortDir='asc'|}">Sort by the hardest</a> |-->
+    <!--        <a th:href="@{|/page/${currentPage}?sortF='difficultyType'&sortDir='desc'|}">Sort by the least hard</a> |-->
+    <!--        <a th:href="@{|/page/${currentPage}?sortF='difficultyType'&sortDir='desc'|}">Sort by Date</a>-->
+    <!--    </div>-->
+
     <div>
         <div th:each="puzzle : ${puzzles}">
-            <a th:href="@{'/puzzles/' + ${puzzle.id()}}" th:data-id="${puzzle.id()}" th:text="${puzzle.title()}"></a>
+            <a th:href="@{'/puzzles/' + ${puzzle.id}}" th:data-id="${puzzle.id}" th:text="${puzzle.title}"></a>
             <br>
-            <p th:text="|Difficulty: ${puzzle.difficultyType()}|"></p>
+            <p th:text="|Difficulty: ${puzzle.difficultyType}|"></p>
+            <br>
+            <p th:text="|Rating: ${puzzle.rating}|"></p>
+            <br>
+            <p th:text="|Date of adding: ${puzzle.dateOfAdding}|"></p>
+            <br>
         </div>
     </div>
 
@@ -39,7 +50,6 @@
             <a th:if="${currentPage != 1}" th:href="@{'/puzzles/page/' + ${currentPage - 1}}">Previous</a>
             <span th:if="${currentPage == 1}">Previous</span>
         </div>
-
     </div>
 </main>
 </body>

@@ -1,5 +1,15 @@
 package com.example.quizzzin.models.dto;
 
 import com.example.quizzzin.enums.DifficultyType;
+import lombok.Data;
 
-public record FeedViewAbstractPuzzleDTO(long id, DifficultyType difficultyType, String title) {}
+import java.time.LocalDateTime;
+
+@Data
+public class FeedViewAbstractPuzzleDTO {
+    private long id;
+    private DifficultyType difficultyType;
+    private String title;
+    private double rating;
+    private LocalDateTime dateOfAdding;
+}

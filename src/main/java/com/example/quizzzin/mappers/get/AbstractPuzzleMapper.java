@@ -27,6 +27,7 @@ public interface AbstractPuzzleMapper {
     ViewAbstractPuzzleDTO toViewDTO(AbstractPuzzle abstractPuzzle);
 
     @Mapping(source = "difficulty.name", target = "difficultyType")
+    @Mapping(target = "rating", expression = "java(calculateAverageRating(abstractPuzzle.getPuzzleRatings()))")
     FeedViewAbstractPuzzleDTO toFeedViewDTO(AbstractPuzzle abstractPuzzle);
 
     SolveRiddleDTO toSolveRiddleDTO(FeedViewAbstractPuzzleDTO abstractPuzzle);
@@ -52,6 +53,7 @@ public interface AbstractPuzzleMapper {
         return userPuzzleScores.stream()
                 .map(u -> new LeaderboardDTO(u.getUser().getNickname(), u.getScore()))
                 .sorted(Comparator.comparing(LeaderboardDTO::score).reversed())
+                .limit(10)
                 .collect(Collectors.toList());
     }
 }
