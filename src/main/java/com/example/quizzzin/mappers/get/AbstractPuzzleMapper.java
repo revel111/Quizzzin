@@ -29,7 +29,7 @@ public interface AbstractPuzzleMapper {
     @Mapping(source = "difficulty.name", target = "difficultyType")
     FeedViewAbstractPuzzleDTO toFeedViewDTO(AbstractPuzzle abstractPuzzle);
 
-    SolveRiddleDTO toSolveRiddleDTO(AbstractPuzzle abstractPuzzle);
+    SolveRiddleDTO toSolveRiddleDTO(FeedViewAbstractPuzzleDTO abstractPuzzle);
 
     default DifficultyType map(Difficulty difficulty) {
         return difficulty.getName();
