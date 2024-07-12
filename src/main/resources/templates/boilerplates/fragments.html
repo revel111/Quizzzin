@@ -7,9 +7,11 @@
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
-<header th:fragment="header">
-    <h1>To be fulfilled...</h1>
-<!--    main page href-->
+<header th:fragment="header" style="padding-bottom: 100px;">
+    <h1>Will be extended...</h1>
+    <a th:href="@{/home}">Homepage</a><br>
+    <a th:href="@{/admin}">Admin homepage</a><br>
+    <a th:href="@{/puzzles/page/1}">Puzzlefeed</a><br>
 </header>
 
 <footer th:fragment="footer">

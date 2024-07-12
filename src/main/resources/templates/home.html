@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{boilerplates/layout}">
 <head>
-    <meta charset="UTF-8">
-    <title>Home</title>
+    <title>Admin page</title>
 </head>
 <body>
-<h2>Currently empty</h2>
+<main layout:fragment="content">
+    <div>
+        <h1>Currently empty</h1>
+    </div>
+</main>
 </body>
 </html>

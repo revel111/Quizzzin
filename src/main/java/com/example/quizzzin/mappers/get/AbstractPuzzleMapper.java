@@ -5,6 +5,7 @@ import com.example.quizzzin.mappers.add.RiddleMapper;
 import com.example.quizzzin.models.dto.FeedViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.dto.LeaderboardDTO;
 import com.example.quizzzin.models.dto.get.ViewAbstractPuzzleDTO;
+import com.example.quizzzin.models.dto.solve.SolveRiddleDTO;
 import com.example.quizzzin.models.entities.AbstractPuzzle;
 import com.example.quizzzin.models.entities.Difficulty;
 import com.example.quizzzin.models.entities.UserPuzzleRating;
@@ -27,6 +28,8 @@ public interface AbstractPuzzleMapper {
 
     @Mapping(source = "difficulty.name", target = "difficultyType")
     FeedViewAbstractPuzzleDTO toFeedViewDTO(AbstractPuzzle abstractPuzzle);
+
+    SolveRiddleDTO toSolveRiddleDTO(AbstractPuzzle abstractPuzzle);
 
     default DifficultyType map(Difficulty difficulty) {
         return difficulty.getName();

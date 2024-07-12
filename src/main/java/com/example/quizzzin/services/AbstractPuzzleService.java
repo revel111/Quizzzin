@@ -33,9 +33,13 @@ public class AbstractPuzzleService {
         return abstractPuzzleMapper.toViewDTO(abstractPuzzle);
     }
 
+    public FeedViewAbstractPuzzleDTO toFeedViewAbstractPuzzleDTO(AbstractPuzzle abstractPuzzle) {
+        return abstractPuzzleMapper.toFeedViewDTO(abstractPuzzle);
+    }
+
     public Page<FeedViewAbstractPuzzleDTO> toFeedViewPuzzlePage(Page<AbstractPuzzle> puzzlePage) {
         List<FeedViewAbstractPuzzleDTO> abstractPuzzleDTOList = puzzlePage.stream()
-                .map(x -> new FeedViewAbstractPuzzleDTO(x.getId(), x.getDifficulty().getName(), x.getTitle()))
+                .map(this::toFeedViewAbstractPuzzleDTO)
                 .toList();
         return new PageImpl<>(abstractPuzzleDTOList, PageRequest.of(puzzlePage.getNumber(), puzzlePage.getSize()), puzzlePage.getTotalElements());
     }
