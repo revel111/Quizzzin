@@ -1,21 +1,21 @@
 package com.example.quizzzin.services;
 
-import com.example.quizzzin.mappers.get.AbstractPuzzleMapper;
-import com.example.quizzzin.models.dto.FeedViewAbstractPuzzleDTO;
-import com.example.quizzzin.models.dto.get.ViewAbstractPuzzleDTO;
-import com.example.quizzzin.models.entities.AbstractPuzzle;
-import com.example.quizzzin.repositories.AbstractPuzzleRepository;
-import com.example.quizzzin.utilities.AbstractPuzzleSpecifications;
-import lombok.AllArgsConstructor;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.example.quizzzin.mappers.get.AbstractPuzzleMapper;
+import com.example.quizzzin.models.dto.FeedViewAbstractPuzzleDTO;
+import com.example.quizzzin.models.dto.get.ViewAbstractPuzzleDTO;
+import com.example.quizzzin.models.dto.solve.SolveRiddleDTO;
+import com.example.quizzzin.models.entities.AbstractPuzzle;
+import com.example.quizzzin.repositories.AbstractPuzzleRepository;
+
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Service
@@ -52,5 +52,10 @@ public class AbstractPuzzleService {
                 .map(this::toFeedViewAbstractPuzzleDTO)
                 .toList();
         return new PageImpl<>(abstractPuzzleDTOList, PageRequest.of(puzzlePage.getNumber(), puzzlePage.getSize()), puzzlePage.getTotalElements());
+    }
+
+    // ! DOES NOT WORK
+    public SolveRiddleDTO toSolveRiddleDTO(AbstractPuzzle abstractPuzzle) {
+        return abstractPuzzleMapper.toSolveRiddleDTO(abstractPuzzle);
     }
 }

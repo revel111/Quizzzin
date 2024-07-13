@@ -1,14 +1,13 @@
 package com.example.quizzzin.repositories;
 
-import com.example.quizzzin.models.entities.AbstractPuzzle;
-import com.example.quizzzin.models.entities.Difficulty;
+import java.util.Set;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
-import java.util.Set;
+import com.example.quizzzin.models.entities.AbstractPuzzle;
+import com.example.quizzzin.models.entities.Difficulty;
 
 @Repository
 public interface AbstractPuzzleRepository extends JpaRepository<AbstractPuzzle, Long>, JpaSpecificationExecutor<AbstractPuzzle> {

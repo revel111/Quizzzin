@@ -5,4 +5,5 @@ import lombok.Data;
 @Data
 public abstract class SolveAbstractPuzzleDTO {
     private long id;
+    private String answer;
 }

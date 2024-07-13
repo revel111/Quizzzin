@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{boilerplates/layout}">
+<head>
+    <title>Solve puzzle</title>
+    <style>
+        /**
+        ** The popup (background)
+        ** Essentially, the only thing that matters, is the 
+        *? display: none
+        ** property. The rest is just to make the popup pretty
+        ** We are then modifying this property later with JS code to display the popup
+        *? @See line 152
+        */
+        .popup {
+	        display: none; /* Hidden by default */
+	        position: fixed; /* Stay in place */
+	        z-index: 1; /* Sit on top */
+	        padding-top: 100px; /* Location of the box */
+	        left: 0;
+	        top: 0;
+	        width: 100%; /* Full width */
+	        height: 100%; /* Full height */
+	        overflow: auto; /* Enable scroll if needed */
+	        background-color: rgb(0, 0, 0); /* Fallback color */
+	        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+        }
+
+        /* popup Content */
+        .popup-content {
+	        background-color: #fefefe;
+	        margin: auto;
+	        padding: 20px;
+	        border: 1px solid #888;
+	        width: 40%;
+        }
+        
+        /* Initially hidden buttons */
+        .hidden-button {
+            display: none;
+            margin-top: 10px;
+        }
+
+        /* The Close Button */
+        .close {
+	        color: #aaaaaa;
+	        float: right;
+	        font-size: 28px;
+	        font-weight: bold;
+        }
+
+        .close:hover, .close:focus {
+	        color: #000;
+	        text-decoration: none;
+	        cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<main layout:fragment="content">
+    <div th:if="${abstractPuzzleDTO}">
+        <h2>It's time to solve a puzzle!</h2>
+        <p th:text="|The name of the puzzle is '${abstractPuzzleDTO.title}'|"></p>
+        <p>What is so interesting about it?</p> 
+        <p th:text="|${abstractPuzzleDTO.description}|"></p>
+        <p th:text="|Beware of the difficluty! This is ${abstractPuzzleDTO.difficultyType}|"></p>
+        <p th:text="|The riddle is: ${solveRiddleDTO.text}|"></p>
+
+        <input type="text" id="answerInput" placeholder="Answer">
+        <button type="button" id="answerBtn">Submit an answer</button>
+
+        <!-- An example of a popup -->
+        <div id="successPopup" class="popup">
+            <div class="popup-content">
+                <p>You succesfully solved the riddle!
+                    Please, rate the riddle on a scale of 0 to 5:</p>
+                <select>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                </select>
+            </label>
+                <button type="submit">Submit rating and exit (no fuctionality)</button>
+            </div>  
+        </div>
+
+        <!-- Another example of a popup -->
+        <div id="failurePopup" class="popup">
+            <div class="popup-content">
+                <span class="close">&times;</span>
+                <div>
+                    <p style="display: inline;"> Tries left: </p>
+                    <p style="display: inline;" id="failureText"></p>
+                    <a class="hidden-button" th:href="@{/puzzles/solve-riddle?id={id}(id=${puzzleID})}">
+                        <button type="button">Try again</button>
+                    </a>
+                    <a class="hidden-button" th:href="@{/puzzles/page/1}">
+                        <button type="button">Exit to puzzle feed</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        
+        // A funky function, surves no real purpouse here. Just a usual counter
+        const counter = (function() {
+            let count = 6; // Initial tries value
+
+            const decrement = (x = 1) => count = count - x;
+            const getCount = () => count;
+
+            return {
+            decrement,
+            getCount
+            }
+        })();
+
+        /*
+        Initializing all HTML elements, that we will interact with.
+        let rightAnswer - self-explanatory  
+        */
+        let rightAnswer="[[${solveRiddleDTO.answer}]]";
+        rightAnswer = parseAnswer(rightAnswer);
+        
+        let successPopup = document.getElementById('successPopup');
+        let failurePopup = document.getElementById('failurePopup');
+
+        let answerBtn = document.getElementById('answerBtn');
+        let answerInput = document.getElementById('answerInput');
+
+	    let closeSpan = document.getElementsByClassName('close')[0];
+        let hiddenButton1 = document.getElementsByClassName('hidden-button')[0];
+        let hiddenButton2 = document.getElementsByClassName('hidden-button')[1];
+
+        let failureText = document.getElementById('failureText');
+
+
+        /**
+         ** If we click on an answer button, which we declared earlier, we check if we need to open a popup, 
+         ** and if we do, ...style.display = "block" will overwrite the "display: none" property in css. 
+        */
+	    answerBtn.onclick = function() {
+            // Empty input scenario
+            if (answerInput.value == "") 
+                return null;
+
+            // Correct guess scenario + parsing answers
+            if (parseAnswer(answerInput.value) == rightAnswer) {
+                successPopup.style.display = "block"; // !
+                return true;
+            }
+            
+            // Incorrect guess scenario
+            counter.decrement();
+            if (counter.getCount() > 0) {
+                failureText.innerHTML = counter.getCount();
+            }
+            else {
+                failureText.innerHTML = "None! Better luck next time!";
+                closeSpan.style.display = "none";       // User can't just close the popup now, he either refreshes the page or exits
+                hiddenButton1.style.display = "block";  // Initially hidden buttons are now visible
+                hiddenButton2.style.display = "block";  //
+            }
+
+		    failurePopup.style.display = "block";
+            return false;
+        }
+
+        /**
+         ** Self-explanatory, just closing the popup by setting the display property back to 'none' 
+        */
+        closeSpan.onclick = function() {
+            failurePopup.style.display = "none";
+        }    
+
+        function parseAnswer (answer) {
+            return answer.replace(/\s+/g, '')               // remove whitespaces
+                                    .toLowerCase();         // to lowercase
+        }
+    </script>
+</body>
+</html>
