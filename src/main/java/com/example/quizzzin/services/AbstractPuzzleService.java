@@ -3,6 +3,7 @@ package com.example.quizzzin.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.example.quizzzin.models.entities.Riddle;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -52,10 +53,5 @@ public class AbstractPuzzleService {
                 .map(this::toFeedViewAbstractPuzzleDTO)
                 .toList();
         return new PageImpl<>(abstractPuzzleDTOList, PageRequest.of(puzzlePage.getNumber(), puzzlePage.getSize()), puzzlePage.getTotalElements());
-    }
-
-    // ! DOES NOT WORK
-    public SolveRiddleDTO toSolveRiddleDTO(AbstractPuzzle abstractPuzzle) {
-        return abstractPuzzleMapper.toSolveRiddleDTO(abstractPuzzle);
     }
 }

@@ -59,12 +59,12 @@
 </head>
 <body>
 <main layout:fragment="content">
-    <div th:if="${abstractPuzzleDTO}">
+    <div th:if="${solveRiddleDTO}">
         <h2>It's time to solve a puzzle!</h2>
-        <p th:text="|The name of the puzzle is '${abstractPuzzleDTO.title}'|"></p>
+        <p th:text="|The name of the puzzle is ${solveRiddleDTO.title}|"></p>
         <p>What is so interesting about it?</p> 
-        <p th:text="|${abstractPuzzleDTO.description}|"></p>
-        <p th:text="|Beware of the difficluty! This is ${abstractPuzzleDTO.difficultyType}|"></p>
+        <p th:text="|${solveRiddleDTO.description}|"></p>
+        <p th:text="|Beware of the difficluty! This is ${solveRiddleDTO.difficultyType}|"></p>
         <p th:text="|The riddle is: ${solveRiddleDTO.text}|"></p>
 
         <input type="text" id="answerInput" placeholder="Answer">
@@ -73,17 +73,18 @@
         <!-- An example of a popup -->
         <div id="successPopup" class="popup">
             <div class="popup-content">
-                <p>You succesfully solved the riddle!
+                <p>You successfully solved the riddle!
                     Please, rate the riddle on a scale of 0 to 5:</p>
-                <select>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </label>
-                <button type="submit">Submit rating and exit (no fuctionality)</button>
+                <label>
+                    <select>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </label>
+                <button type="submit">Submit rating and exit (no functionality)</button>
             </div>  
         </div>
 
@@ -94,7 +95,7 @@
                 <div>
                     <p style="display: inline;"> Tries left: </p>
                     <p style="display: inline;" id="failureText"></p>
-                    <a class="hidden-button" th:href="@{/puzzles/solve-riddle?id={id}(id=${puzzleID})}">
+                    <a class="hidden-button" th:href="@{/puzzles/solve(id=${puzzleID})}">
                         <button type="button">Try again</button>
                     </a>
                     <a class="hidden-button" th:href="@{/puzzles/page/1}">
@@ -107,7 +108,7 @@
 
     <script>
         
-        // A funky function, surves no real purpouse here. Just a usual counter
+        // A funky function, serves no real purpose here. Just a usual counter
         const counter = (function() {
             let count = 6; // Initial tries value
 
@@ -146,11 +147,11 @@
         */
 	    answerBtn.onclick = function() {
             // Empty input scenario
-            if (answerInput.value == "") 
+            if (answerInput.value === "")
                 return null;
 
             // Correct guess scenario + parsing answers
-            if (parseAnswer(answerInput.value) == rightAnswer) {
+            if (parseAnswer(answerInput.value) === rightAnswer) {
                 successPopup.style.display = "block"; // !
                 return true;
             }
@@ -183,5 +184,6 @@
                                     .toLowerCase();         // to lowercase
         }
     </script>
+</main>
 </body>
 </html>

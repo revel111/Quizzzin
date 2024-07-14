@@ -1,8 +1,12 @@
 package com.example.quizzzin.mappers.add;
 
+import com.example.quizzzin.enums.DifficultyType;
 import com.example.quizzzin.models.dto.add.AddRiddleDTO;
+import com.example.quizzzin.models.dto.solve.SolveRiddleDTO;
+import com.example.quizzzin.models.entities.Difficulty;
 import com.example.quizzzin.models.entities.Riddle;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -13,4 +17,11 @@ public interface RiddleMapper {
 //    RiddleDTO toRiddleDTO(Riddle riddle);
 
     Riddle toRiddle(AddRiddleDTO riddleDTO);
+
+    @Mapping(source = "difficulty.name", target = "difficultyType")
+    SolveRiddleDTO toSolveRiddleDTO(Riddle riddle);
+
+    default DifficultyType map(Difficulty difficulty) {
+        return difficulty.getName();
+    }
 }

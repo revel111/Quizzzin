@@ -3,6 +3,11 @@ package com.example.quizzzin.controllers.view;
 import java.util.HashMap;
 import java.util.Optional;
 
+import com.example.quizzzin.models.dto.get.ViewAbstractPuzzleDTO;
+import com.example.quizzzin.models.dto.solve.SolveRiddleDTO;
+import com.example.quizzzin.models.entities.Riddle;
+import com.example.quizzzin.services.RiddleService;
+import com.example.quizzzin.utilities.TypeDefiner;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +27,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PuzzleController {
     private final AbstractPuzzleService abstractPuzzleService;
+    private final RiddleService riddleService;
+    private final TypeDefiner typeDefiner;
 
     @GetMapping("/{id}")
-    public String getPuzzle(Model model, @PathVariable long id) {
+    public String getPuzzle(Model model,
+                            @PathVariable long id) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
         if (abstractPuzzle.isEmpty())
             return "home";
@@ -61,22 +69,32 @@ public class PuzzleController {
         return "puzzles/puzzle-feed";
     }
 
-    @GetMapping("/solve-riddle")
+    @GetMapping("/solve")
     public String solveRiddle(Model model,
-                            @RequestParam(name="id", required=true) long id) {
+                            @RequestParam(name="id") long id) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
         if (abstractPuzzle.isEmpty()) 
-            return "admin/home";
+            return "/home"; // ? or return 404
 
-        model.addAllAttributes(new HashMap<>() {
-            {
-                put("puzzleID", id);
-                put("abstractPuzzleDTO", abstractPuzzleService.toViewAbstractPuzzleDTO(abstractPuzzle.get()));
-                put("solveRiddleDTO", abstractPuzzleService.toSolveRiddleDTO(abstractPuzzle.get()));
+//        SolveRiddleDTO solveRiddleDTO = abstractPuzzleService.toSolveRiddleDTO(abstractPuzzle.get());
+//        ViewAbstractPuzzleDTO abstractPuzzleDTO = abstractPuzzleService.toViewAbstractPuzzleDTO(abstractPuzzle.get());
+
+        switch (typeDefiner.defineType(abstractPuzzle.get())) {
+            case "Riddle" -> {
+                Riddle riddle = (Riddle) abstractPuzzle.get();
+                SolveRiddleDTO riddleDTO = riddleService.toSolveRiddleDTO(riddle);
+
+                model.addAllAttributes(new HashMap<>() {
+                    {
+                        put("puzzleID", id);
+                        put("solveRiddleDTO", riddleDTO);
+                    }
+                });
+                return "puzzles/solve-riddle";
             }
-        });
+            //TODO add implementation for the Wordle
+        }
 
-        return "puzzles/solve-riddle";
+        return "puzzles/solve-riddle"; //TODO redirect somewhere else (404), but technically unreachable
     }
-
 }

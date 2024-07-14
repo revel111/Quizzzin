@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.example.quizzzin.models.entities.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
@@ -15,10 +16,6 @@ import com.example.quizzzin.models.dto.FeedViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.dto.LeaderboardDTO;
 import com.example.quizzzin.models.dto.get.ViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.dto.solve.SolveRiddleDTO;
-import com.example.quizzzin.models.entities.AbstractPuzzle;
-import com.example.quizzzin.models.entities.Difficulty;
-import com.example.quizzzin.models.entities.UserPuzzleRating;
-import com.example.quizzzin.models.entities.UserPuzzleScore;
 
 @Mapper
 public interface AbstractPuzzleMapper {
@@ -32,8 +29,6 @@ public interface AbstractPuzzleMapper {
     @Mapping(source = "difficulty.name", target = "difficultyType")
     @Mapping(target = "rating", expression = "java(calculateAverageRating(abstractPuzzle.getPuzzleRatings()))")
     FeedViewAbstractPuzzleDTO toFeedViewDTO(AbstractPuzzle abstractPuzzle);
-
-    SolveRiddleDTO toSolveRiddleDTO(AbstractPuzzle abstractPuzzle); // ! DOES NOT WORK 
 
     default DifficultyType map(Difficulty difficulty) {
         return difficulty.getName();

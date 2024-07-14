@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{boilerplates/layout}">
 <head>
-    <title>Admin page</title>
+    <title>Puzzle page</title>
 </head>
 <body>
 <main layout:fragment="content">
@@ -14,7 +14,7 @@
         <p th:text="|Difficulty: ${abstractPuzzleDTO.difficultyType}|"></p>
         <p th:text="|Puzzle Rating: ${abstractPuzzleDTO.rating}|"></p>
         <p th:text="|Puzzle Scores: ${abstractPuzzleDTO.leaderboardDTOList}|"></p>
-        <a th:href="@{/puzzles/solve-riddle?id={id}(id=${puzzleID})}">
+        <a th:href="@{/puzzles/solve(id=${puzzleID})}">
             <button>Solve this riddle</button>
         </a>
     </div>

@@ -2,6 +2,7 @@ package com.example.quizzzin.services;
 
 import com.example.quizzzin.mappers.add.RiddleMapper;
 import com.example.quizzzin.models.dto.add.AddRiddleDTO;
+import com.example.quizzzin.models.dto.solve.SolveRiddleDTO;
 import com.example.quizzzin.models.entities.Riddle;
 import com.example.quizzzin.repositories.RiddleRepository;
 import lombok.AllArgsConstructor;
@@ -22,5 +23,9 @@ public class RiddleService {
 
     private Riddle toRiddle(AddRiddleDTO addRiddleDTO) {
         return riddleMapper.toRiddle(addRiddleDTO);
+    }
+
+    public SolveRiddleDTO toSolveRiddleDTO(Riddle riddle) {
+        return riddleMapper.toSolveRiddleDTO(riddle);
     }
 }
