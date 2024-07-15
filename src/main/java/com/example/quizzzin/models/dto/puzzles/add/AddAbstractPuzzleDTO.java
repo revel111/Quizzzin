@@ -1,4 +1,4 @@
-package com.example.quizzzin.models.dto.add;
+package com.example.quizzzin.models.dto.puzzles.add;
 
 import com.example.quizzzin.enums.DifficultyType;
 import jakarta.validation.constraints.NotBlank;

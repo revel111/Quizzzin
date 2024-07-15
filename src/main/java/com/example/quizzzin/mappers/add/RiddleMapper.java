@@ -1,8 +1,8 @@
 package com.example.quizzzin.mappers.add;
 
 import com.example.quizzzin.enums.DifficultyType;
-import com.example.quizzzin.models.dto.add.AddRiddleDTO;
-import com.example.quizzzin.models.dto.solve.SolveRiddleDTO;
+import com.example.quizzzin.models.dto.puzzles.add.AddRiddleDTO;
+import com.example.quizzzin.models.dto.puzzles.solve.SolveRiddleDTO;
 import com.example.quizzzin.models.entities.Difficulty;
 import com.example.quizzzin.models.entities.Riddle;
 import org.mapstruct.Mapper;

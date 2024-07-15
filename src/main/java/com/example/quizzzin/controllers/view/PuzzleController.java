@@ -3,8 +3,7 @@ package com.example.quizzzin.controllers.view;
 import java.util.HashMap;
 import java.util.Optional;
 
-import com.example.quizzzin.models.dto.get.ViewAbstractPuzzleDTO;
-import com.example.quizzzin.models.dto.solve.SolveRiddleDTO;
+import com.example.quizzzin.models.dto.puzzles.solve.SolveRiddleDTO;
 import com.example.quizzzin.models.entities.Riddle;
 import com.example.quizzzin.services.RiddleService;
 import com.example.quizzzin.utilities.TypeDefiner;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.quizzzin.models.dto.FeedViewAbstractPuzzleDTO;
+import com.example.quizzzin.models.dto.puzzles.get.FeedViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.entities.AbstractPuzzle;
 import com.example.quizzzin.services.AbstractPuzzleService;
 

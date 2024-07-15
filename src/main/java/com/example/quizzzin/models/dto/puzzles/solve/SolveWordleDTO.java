@@ -1,4 +1,4 @@
-package com.example.quizzzin.models.dto.solve;
+package com.example.quizzzin.models.dto.puzzles.solve;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

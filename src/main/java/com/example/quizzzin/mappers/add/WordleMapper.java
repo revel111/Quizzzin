@@ -1,6 +1,6 @@
 package com.example.quizzzin.mappers.add;
 
-import com.example.quizzzin.models.dto.add.AddWordleDTO;
+import com.example.quizzzin.models.dto.puzzles.add.AddWordleDTO;
 import com.example.quizzzin.models.entities.Wordle;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

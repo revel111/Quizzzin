@@ -1,6 +1,6 @@
 INSERT INTO "ROLE" (NAME)
-VALUES ('MODERATOR'),
-       ('USER'),
+VALUES ('USER'),
+       ('MODERATOR'),
        ('ADMIN');
 
 INSERT INTO "DIFFICULTY" (NAME)

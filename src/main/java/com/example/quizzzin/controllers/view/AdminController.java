@@ -1,8 +1,8 @@
 package com.example.quizzzin.controllers.view;
 
 import com.example.quizzzin.enums.DifficultyType;
-import com.example.quizzzin.models.dto.add.AddRiddleDTO;
-import com.example.quizzzin.models.dto.add.AddWordleDTO;
+import com.example.quizzzin.models.dto.puzzles.add.AddRiddleDTO;
+import com.example.quizzzin.models.dto.puzzles.add.AddWordleDTO;
 import com.example.quizzzin.models.entities.AbstractPuzzle;
 import com.example.quizzzin.services.RiddleService;
 import com.example.quizzzin.services.WordleService;

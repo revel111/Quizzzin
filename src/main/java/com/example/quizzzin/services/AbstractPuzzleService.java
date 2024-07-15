@@ -3,16 +3,14 @@ package com.example.quizzzin.services;
 import java.util.List;
 import java.util.Optional;
 
-import com.example.quizzzin.models.entities.Riddle;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.example.quizzzin.mappers.get.AbstractPuzzleMapper;
-import com.example.quizzzin.models.dto.FeedViewAbstractPuzzleDTO;
-import com.example.quizzzin.models.dto.get.ViewAbstractPuzzleDTO;
-import com.example.quizzzin.models.dto.solve.SolveRiddleDTO;
+import com.example.quizzzin.models.dto.puzzles.get.FeedViewAbstractPuzzleDTO;
+import com.example.quizzzin.models.dto.puzzles.get.ViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.entities.AbstractPuzzle;
 import com.example.quizzzin.repositories.AbstractPuzzleRepository;
 

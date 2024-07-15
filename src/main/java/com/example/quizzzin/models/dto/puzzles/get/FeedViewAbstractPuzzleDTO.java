@@ -1,4 +1,4 @@
-package com.example.quizzzin.models.dto;
+package com.example.quizzzin.models.dto.puzzles.get;
 
 import com.example.quizzzin.enums.DifficultyType;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.example.quizzzin.services;
 
 import com.example.quizzzin.mappers.add.WordleMapper;
-import com.example.quizzzin.models.dto.add.AddWordleDTO;
+import com.example.quizzzin.models.dto.puzzles.add.AddWordleDTO;
 import com.example.quizzzin.models.entities.Wordle;
 import com.example.quizzzin.repositories.WordleRepository;
 import lombok.AllArgsConstructor;

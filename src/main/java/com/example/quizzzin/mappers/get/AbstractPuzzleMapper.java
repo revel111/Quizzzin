@@ -12,10 +12,9 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import com.example.quizzzin.enums.DifficultyType;
-import com.example.quizzzin.models.dto.FeedViewAbstractPuzzleDTO;
-import com.example.quizzzin.models.dto.LeaderboardDTO;
-import com.example.quizzzin.models.dto.get.ViewAbstractPuzzleDTO;
-import com.example.quizzzin.models.dto.solve.SolveRiddleDTO;
+import com.example.quizzzin.models.dto.puzzles.get.FeedViewAbstractPuzzleDTO;
+import com.example.quizzzin.models.dto.puzzles.LeaderboardDTO;
+import com.example.quizzzin.models.dto.puzzles.get.ViewAbstractPuzzleDTO;
 
 @Mapper
 public interface AbstractPuzzleMapper {

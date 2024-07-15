@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{boilerplates/layout}">
+<head>
+    <title>Register</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div>
+        <form method="post" th:action="@{/register}" th:object="${userDTO}">
+            <label>
+                Enter name
+                <br>
+                <input type="text" th:field="*{name}" placeholder="Enter the name"/>
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error"></p>
+            </label>
+            <br>
+
+            <label>
+                Enter surname
+                <br>
+                <input type="text" th:field="*{surname}" placeholder="Enter the surname"/>
+                <p th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" class="error"></p>
+            </label>
+            <br>
+
+            <label>
+                Choose date of birth
+                <br>
+                <input type="date" th:field="*{dateOfBirth}" min="1900-01-01" max="2019-01-01"/>
+                <p th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="error"></p>
+            </label>
+            <br>
+
+
+            <label>
+                Enter nickname
+                <br>
+                <input type="text" th:field="*{nickname}" placeholder="Enter the nickname"/>
+                <p th:if="${#fields.hasErrors('nickname')}" th:errors="*{nickname}" class="error"></p>
+            </label>
+            <br>
+
+            <label>
+                Enter email
+                <br>
+                <input type="text" th:field="*{email}" placeholder="Enter the email"/>
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></p>
+            </label>
+            <br>
+
+            <label>
+                Enter password
+                <br>
+                <input type="text" th:field="*{password}" placeholder="Enter the password"/>
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></p>
+            </label>
+            <br>
+
+            <button type="submit">Register</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>
