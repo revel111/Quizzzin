@@ -1,6 +1,6 @@
 package com.example.quizzzin.services;
 
-import com.example.quizzzin.mappers.add.RiddleMapper;
+import com.example.quizzzin.mappers.puzzles.RiddleMapper;
 import com.example.quizzzin.models.dto.puzzles.add.AddRiddleDTO;
 import com.example.quizzzin.models.dto.puzzles.solve.SolveRiddleDTO;
 import com.example.quizzzin.models.entities.Riddle;

@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import com.example.quizzzin.mappers.get.AbstractPuzzleMapper;
+import com.example.quizzzin.mappers.puzzles.AbstractPuzzleMapper;
 import com.example.quizzzin.models.dto.puzzles.get.FeedViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.dto.puzzles.get.ViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.entities.AbstractPuzzle;

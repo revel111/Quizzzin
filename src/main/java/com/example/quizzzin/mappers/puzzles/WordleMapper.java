@@ -1,4 +1,4 @@
-package com.example.quizzzin.mappers.add;
+package com.example.quizzzin.mappers.puzzles;
 
 import com.example.quizzzin.models.dto.puzzles.add.AddWordleDTO;
 import com.example.quizzzin.models.entities.Wordle;

@@ -1,4 +1,4 @@
-package com.example.quizzzin.mappers;
+package com.example.quizzzin.mappers.other;
 
 import com.example.quizzzin.models.dto.other.RegisterUserDTO;
 import com.example.quizzzin.models.entities.User;

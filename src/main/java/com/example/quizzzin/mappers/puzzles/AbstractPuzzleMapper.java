@@ -1,4 +1,4 @@
-package com.example.quizzzin.mappers.get;
+package com.example.quizzzin.mappers.puzzles;
 
 import java.util.ArrayList;
 import java.util.Comparator;

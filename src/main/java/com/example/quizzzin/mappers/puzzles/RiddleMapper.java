@@ -1,4 +1,4 @@
-package com.example.quizzzin.mappers.add;
+package com.example.quizzzin.mappers.puzzles;
 
 import com.example.quizzzin.enums.DifficultyType;
 import com.example.quizzzin.models.dto.puzzles.add.AddRiddleDTO;
