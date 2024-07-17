@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{boilerplates/layout}">
 <head>
-    <title>Puzzle page</title>
+    <title th:text="${abstractPuzzleDTO.title}"></title>
 </head>
 <body>
 <main layout:fragment="content">
@@ -13,10 +13,21 @@
         <p th:text="|Date of Adding: ${abstractPuzzleDTO.dateOfAdding}|"></p>
         <p th:text="|Difficulty: ${abstractPuzzleDTO.difficultyType}|"></p>
         <p th:text="|Puzzle Rating: ${abstractPuzzleDTO.rating}|"></p>
-        <p th:text="|Puzzle Scores: ${abstractPuzzleDTO.leaderboardDTOList}|"></p>
+        <!--        <p th:text="|Puzzle Scores: ${abstractPuzzleDTO.leaderboardDTOList}|"></p>-->
+        <div th:if="${#lists.isEmpty(abstractPuzzleDTO.leaderboardDTOList)}">
+            <p>No one solved this riddle</p>
+        </div>
+        <div th:unless="${#lists.isEmpty(abstractPuzzleDTO.leaderboardDTOList)}">
+            <span th:each="entry, iter : ${abstractPuzzleDTO.leaderboardDTOList}">
+                <p th:text="|iter) ${entry.nickname()}: ${entry.score()}|"></p>
+            </span>
+        </div>
         <a th:href="@{/puzzles/solve(id=${puzzleID})}">
             <button>Solve this riddle</button>
         </a>
+        <div>
+            <h1>Comments:</h1>
+        </div>
     </div>
 </main>
 </body>

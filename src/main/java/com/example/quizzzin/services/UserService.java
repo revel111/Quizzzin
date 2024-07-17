@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class UserService {
@@ -32,5 +34,9 @@ public class UserService {
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails)
             return ((UserDetails) authentication.getPrincipal()).getUsername();
         return null;
+    }
+
+    public Optional<User> findUserByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

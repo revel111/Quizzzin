@@ -2,6 +2,7 @@ package com.example.quizzzin.configurations;
 
 import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.repositories.UserRepository;
+import com.example.quizzzin.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -19,7 +20,7 @@ import java.util.Optional;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration implements WebMvcConfigurer {
+public class SecurityConfiguration {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -36,9 +37,9 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository userRepository) {
+    public UserDetailsService userDetailsService(UserService userService) {
         return username -> {
-            Optional<User> user = userRepository.findByEmail(username);
+            Optional<User> user = userService.findUserByEmail(username);
             if (user.isPresent())
                 return user.get();
 

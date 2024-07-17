@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Optional;
+
 @Controller
 @AllArgsConstructor
 @Slf4j
@@ -28,6 +30,11 @@ public class AuthorizationController {
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("userDTO") RegisterUserDTO registerUserDTO,
                            BindingResult bindingResult) {
+        Optional<User> optionalUser = userService.findUserByEmail(registerUserDTO.getEmail());
+
+        if (optionalUser.isPresent())
+            bindingResult.rejectValue("email", "email.exists", "Email is already in use");
+
         if (bindingResult.hasErrors())
             return "redirect:/register";
 
