@@ -31,8 +31,13 @@ public class SecurityConfiguration {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                .formLogin(form -> form.loginPage("/quizzzin/login").defaultSuccessUrl("/home").permitAll())
-                .logout(logout -> logout.logoutUrl("/logout").logoutSuccessUrl("/home").permitAll())
+                .formLogin(form -> form.loginPage("/quizzzin/login")
+                        .defaultSuccessUrl("/home")
+                        .failureForwardUrl("/quizzzin/login")
+                        .permitAll())
+                .logout(logout -> logout.logoutUrl("/logout")
+                        .logoutSuccessUrl("/home")
+                        .permitAll())
                 .build();
     }
 

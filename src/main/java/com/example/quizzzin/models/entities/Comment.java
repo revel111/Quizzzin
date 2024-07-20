@@ -2,14 +2,7 @@ package com.example.quizzzin.models.entities;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -26,10 +19,15 @@ public class Comment {
     @Size(min = 1, max = 500)
     @Column(name = "text")
     private String text;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "puzzle_id")
     private AbstractPuzzle puzzle;
+
+    @PrePersist
+    protected void onCreate() {
+        dateOfAdding = LocalDateTime.now();
+    }
 }

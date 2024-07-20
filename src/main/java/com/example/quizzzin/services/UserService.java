@@ -24,16 +24,24 @@ public class UserService {
 
     public User saveUser(RegisterUserDTO registerUserDTO) {
         User user = userMapper.toUser(registerUserDTO);
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.getRoles().add(roleService.findByName(RoleType.USER));
+
         return userRepository.save(user);
     }
 
     public String getAuthenticatedUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         if (authentication != null && authentication.getPrincipal() instanceof UserDetails)
             return ((UserDetails) authentication.getPrincipal()).getUsername();
+
         return null;
+    }
+
+    public Optional<User> findUserById(long id) {
+        return userRepository.findById(id);
     }
 
     public Optional<User> findUserByEmail(String email) {

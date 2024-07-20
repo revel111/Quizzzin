@@ -4,9 +4,11 @@ import com.example.quizzzin.models.embeddable.PuzzleUserKey;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@EqualsAndHashCode
 @Table(name = "\"PUZZLE_RATING\"")
 public class UserPuzzleRating {
     @EmbeddedId

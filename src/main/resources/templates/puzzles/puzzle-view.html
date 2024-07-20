@@ -26,7 +26,35 @@
             <button>Solve this riddle</button>
         </a>
         <div>
-            <h1>Comments:</h1>
+            <div th:if="${#lists.isEmpty(abstractPuzzleDTO.commentDTOList)}">
+                <h1>No comments</h1>
+            </div>
+            <div th:unless="${#lists.isEmpty(abstractPuzzleDTO.commentDTOList)}">
+                <h1>Comments:</h1>
+
+                <ul id="comments-list">
+                    <li th:each="comment : ${abstractPuzzleDTO.commentDTOList}"
+                        th:attr="data-id=${comment.id}">
+                        <p th:text="|${comment.username}: at ${comment.dateOfAdding}|"></p>
+                        <p class="comment-text" th:text="${comment.text}"></p>
+                        <div th:if="${userId} != null and ${comment.userId} == ${userId}">
+                            <button onclick="editComment(this)">Edit</button>
+                            <button onclick="deleteComment(this)">Delete</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div th:if="${userId != null}">
+                <form id="comment-form" onsubmit="addComment(this)">
+                    <textarea id="comment-content" required></textarea>
+                    <input type="hidden" id="user-id" th:value="${userId}">
+                    <input type="hidden" id="puzzle-id" th:value="${abstractPuzzleDTO.id}">
+                    <button type="submit">Add Comment</button>
+                </form>
+            </div>
+
+            <script type="text/javascript" th:src="@{/js/comment.js}" defer></script>
         </div>
     </div>
 </main>

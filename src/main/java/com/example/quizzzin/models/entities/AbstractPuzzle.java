@@ -37,6 +37,8 @@ public abstract class AbstractPuzzle {
     private Set<UserPuzzleScore> puzzleScores;
     @OneToMany(mappedBy = "puzzle")
     private Set<UserPuzzleRating> puzzleRatings;
+    @OneToMany(mappedBy = "puzzle", fetch = FetchType.EAGER)
+    private Set<Comment> comments;
 
     @PrePersist
     protected void onCreate() {

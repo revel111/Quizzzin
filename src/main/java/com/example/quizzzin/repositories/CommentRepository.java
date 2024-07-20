@@ -5,6 +5,8 @@ import org.springframework.stereotype.Repository;
 
 import com.example.quizzzin.models.entities.Comment;
 
+import java.util.List;
+
 @Repository
 public interface CommentRepository extends CrudRepository<Comment, Long> {
 }

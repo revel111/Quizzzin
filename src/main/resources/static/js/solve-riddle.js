@@ -1,5 +1,5 @@
 // A funky function, serves no real purpose here. Just a usual counter
-const counter = (function() {
+const counter = (function () {
     let count = 6; // Initial tries value
 
     const decrement = (x = 1) => count = count - x;
@@ -34,7 +34,7 @@ let failureText = document.getElementById('failureText');
  ** If we click on an answer button, which we declared earlier, we check if we need to open a popup,
  ** and if we do, ...style.display = "block" will overwrite the "display: none" property in css.
  */
-answerBtn.onclick = function() {
+answerBtn.onclick = function () {
     // Empty input scenario
     if (answerInput.value === "")
         return null;
@@ -49,8 +49,7 @@ answerBtn.onclick = function() {
     counter.decrement();
     if (counter.getCount() > 0) {
         failureText.innerHTML = counter.getCount();
-    }
-    else {
+    } else {
         failureText.innerHTML = "None! Better luck next time!";
         closeSpan.style.display = "none";       // User can't just close the popup now, he either refreshes the page or exits
         hiddenButton1.style.display = "block";  // Initially hidden buttons are now visible
@@ -64,11 +63,11 @@ answerBtn.onclick = function() {
 /**
  ** Self-explanatory, just closing the popup by setting the display property back to 'none'
  */
-closeSpan.onclick = function() {
+closeSpan.onclick = function () {
     failurePopup.style.display = "none";
 }
 
-function parseAnswer (answer) {
+function parseAnswer(answer) {
     return answer.replace(/\s+/g, '')               // remove whitespaces
         .toLowerCase();         // to lowercase
 }

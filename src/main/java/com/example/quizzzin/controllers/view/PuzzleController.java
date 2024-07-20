@@ -5,9 +5,11 @@ import java.util.Optional;
 
 import com.example.quizzzin.models.dto.puzzles.solve.SolveRiddleDTO;
 import com.example.quizzzin.models.entities.Riddle;
+import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.services.RiddleService;
 import com.example.quizzzin.utilities.TypeDefiner;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,15 +33,27 @@ public class PuzzleController {
 
     @GetMapping("/{id}")
     public String getPuzzle(Model model,
-                            @PathVariable long id) {
+                            @PathVariable long id/*,
+                            HttpSession session*/) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
         if (abstractPuzzle.isEmpty())
             return "home";
 
+        Long userId = null;
+        User user;
+        try {
+            user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            userId = user.getId();
+        } catch (ClassCastException ignored) {
+
+        }
+
+        Long finalUserId = userId;
         model.addAllAttributes(new HashMap<>() {
             {
                 put("puzzleID", id);
                 put("abstractPuzzleDTO", abstractPuzzleService.toViewAbstractPuzzleDTO(abstractPuzzle.get()));
+                put("userId", finalUserId);
             }
         });
 
@@ -48,8 +62,8 @@ public class PuzzleController {
 
     @GetMapping("/page/{pageNum}")
     public String getPuzzles(@PathVariable int pageNum,
-                             /*@RequestParam(value = "sortF", defaultValue = "difficultyType") String sortField,*/
-                             /*@RequestParam(value = "sortDir", defaultValue = "asc") String sortDirection,*/
+            /*@RequestParam(value = "sortF", defaultValue = "difficultyType") String sortField,*/
+            /*@RequestParam(value = "sortDir", defaultValue = "asc") String sortDirection,*/
                              Model model) {
         Page<FeedViewAbstractPuzzleDTO> page = abstractPuzzleService.toFeedViewPuzzlePage(abstractPuzzleService.getPuzzlesPage(pageNum/*, sortField, sortDirection*/));
 
@@ -70,9 +84,9 @@ public class PuzzleController {
 
     @GetMapping("/solve")
     public String solveRiddle(Model model,
-                            @RequestParam(name="id") long id) {
+                              @RequestParam(name = "id") long id) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
-        if (abstractPuzzle.isEmpty()) 
+        if (abstractPuzzle.isEmpty())
             return "/home"; // ? or return 404
 
 //        SolveRiddleDTO solveRiddleDTO = abstractPuzzleService.toSolveRiddleDTO(abstractPuzzle.get());
