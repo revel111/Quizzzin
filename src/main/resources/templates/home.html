@@ -7,8 +7,19 @@
 </head>
 <body>
 <main layout:fragment="content">
-    <div>
-        <h1>Currently empty</h1>
+    <div th:if="${leaderboard.isEmpty()}">
+        <h1>The Leaderboard is currently empty.</h1>
+    </div>
+    <div th:unless="${leaderboard.isEmpty()}">
+        <h1>The leaderboard</h1>
+        <ul>
+            <li th:each="record, iter : ${leaderboard}">
+                <p th:inline="text">
+                    [[${iter.index + 1}]] <a th:href="@{/profile/{id}(id=${record.userId()})}">[[${record.nickname()}]]</a>:
+                    [[${record.score()}]]
+                </p>
+            </li>
+        </ul>
     </div>
 </main>
 </body>

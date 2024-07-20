@@ -7,21 +7,22 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.example.quizzzin.mappers.other.CommentMapper;
+import com.example.quizzzin.mappers.other.UserPuzzleScoreMapper;
 import com.example.quizzzin.models.dto.other.ViewCommentDTO;
 import com.example.quizzzin.models.entities.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import com.example.quizzzin.enums.DifficultyType;
 import com.example.quizzzin.models.dto.puzzles.get.FeedViewAbstractPuzzleDTO;
-import com.example.quizzzin.models.dto.puzzles.LeaderboardDTO;
+import com.example.quizzzin.models.dto.other.LeaderboardDTO;
 import com.example.quizzzin.models.dto.puzzles.get.ViewAbstractPuzzleDTO;
 
 @Mapper
 public interface AbstractPuzzleMapper {
     AbstractPuzzleMapper INSTANCE = Mappers.getMapper(AbstractPuzzleMapper.class);
     CommentMapper commentMapper = CommentMapper.INSTANCE;
+    UserPuzzleScoreMapper userPuzzleScoreMapper = UserPuzzleScoreMapper.INSTANCE;
 
     @Mapping(source = "difficulty.name", target = "difficultyType")
     @Mapping(target = "rating", expression = "java(calculateAverageRating(abstractPuzzle.getPuzzleRatings()))")
@@ -48,7 +49,7 @@ public interface AbstractPuzzleMapper {
             return new ArrayList<>();
 
         return userPuzzleScores.stream()
-                .map(u -> new LeaderboardDTO(u.getUser().getNickname(), u.getScore()))
+                .map(userPuzzleScoreMapper::toLeaderboardDTO)
                 .sorted(Comparator.comparing(LeaderboardDTO::score).reversed())
                 .limit(10)
                 .collect(Collectors.toList());

@@ -8,10 +8,4 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @ControllerAdvice
 @AllArgsConstructor
 public class GlobalController {
-    private final UserService userService;
-
-    @ModelAttribute("username")
-    public String getUsername() {
-        return userService.getAuthenticatedUsername();
-    }
 }

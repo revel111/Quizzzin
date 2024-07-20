@@ -18,8 +18,11 @@
             <p>No one solved this riddle</p>
         </div>
         <div th:unless="${#lists.isEmpty(abstractPuzzleDTO.leaderboardDTOList)}">
-            <span th:each="entry, iter : ${abstractPuzzleDTO.leaderboardDTOList}">
-                <p th:text="|iter) ${entry.nickname()}: ${entry.score()}|"></p>
+            <span th:each="record, iter : ${abstractPuzzleDTO.leaderboardDTOList}">
+                <p th:inline="text">
+                    [[${iter.index + 1}]] <a th:href="@{/profile/{id}(id=${record.userId()})}">[[${record.nickname()}]]</a>:
+                    [[${record.score()}]]
+                </p>
             </span>
         </div>
         <a th:href="@{/puzzles/solve(id=${puzzleID})}">

@@ -45,7 +45,6 @@ public class PuzzleController {
             user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             userId = user.getId();
         } catch (ClassCastException ignored) {
-
         }
 
         Long finalUserId = userId;

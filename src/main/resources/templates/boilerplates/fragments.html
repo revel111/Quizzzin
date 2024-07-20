@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head">
     <meta charset="UTF-8">
     <title>Quizzin</title>
@@ -12,11 +12,13 @@
     <a th:href="@{/home}">Homepage</a><br>
     <a th:href="@{/admin}">Admin homepage</a><br>
     <a th:href="@{/puzzles/page/1}">Puzzlefeed</a><br>
-    <div th:if="${username == null}">
+
+    <div sec:authorize="!isAuthenticated()">
         <a th:href="@{/login}">Login</a>
     </div>
-    <div th:if="${username != null}">
-        <a th:href="@{/account}" th:text="${username}"></a>
+
+    <div sec:authorize="isAuthenticated()">
+        <a th:href="@{/account}" th:text="${#authentication.name}"></a>
         <br>
         <a th:href="@{/logout}">Logout</a>
     </div>
