@@ -31,14 +31,14 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public String getAuthenticatedUsername() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication != null && authentication.getPrincipal() instanceof UserDetails)
-            return ((UserDetails) authentication.getPrincipal()).getUsername();
-
-        return null;
-    }
+//    public String getAuthenticatedUsername() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        if (authentication != null && authentication.getPrincipal() instanceof UserDetails)
+//            return ((UserDetails) authentication.getPrincipal()).getUsername();
+//
+//        return null;
+//    }
 
     public Optional<User> findUserById(long id) {
         return userRepository.findById(id);

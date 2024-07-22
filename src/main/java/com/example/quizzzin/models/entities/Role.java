@@ -3,10 +3,12 @@ package com.example.quizzzin.models.entities;
 import com.example.quizzzin.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "\"ROLE\"")
 public class Role {
@@ -17,6 +19,4 @@ public class Role {
     @Enumerated(EnumType.STRING)
     @Column(name = "name")
     private RoleType name;
-    @ManyToMany(mappedBy = "roles", fetch = FetchType.EAGER)
-    private Set<User> users;
 }

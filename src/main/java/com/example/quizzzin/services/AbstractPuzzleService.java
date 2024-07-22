@@ -3,9 +3,7 @@ package com.example.quizzzin.services;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import com.example.quizzzin.mappers.puzzles.AbstractPuzzleMapper;
@@ -22,16 +20,34 @@ public class AbstractPuzzleService {
     private final AbstractPuzzleRepository abstractPuzzleRepository;
     private final AbstractPuzzleMapper abstractPuzzleMapper = AbstractPuzzleMapper.INSTANCE;
 
-    public Page<AbstractPuzzle> getPuzzlesPage(int pageNum/*, String sortField, String sortDirection*/) {
-//        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name())
-//                ? Sort.by(sortField).ascending()
-//                : Sort.by(sortField).descending();
+    public Page<AbstractPuzzle> getPuzzlesPage(int pageNum, String sortBy, String dir) {
+        Page<AbstractPuzzle> page;
+        Sort sort;
+        Pageable pageable = PageRequest.of(pageNum - 1, 3);
+        boolean ascending = dir.equalsIgnoreCase(Sort.Direction.ASC.name());
 
-//        if (sortField.equalsIgnoreCase("rating"))
-//            return abstractPuzzleRepository.findAll(AbstractPuzzleSpecifications.byAverageRating(),
-//                    PageRequest.of(pageNum - 1, 3, sort));
+        switch (sortBy) {
+            case "difficulty" -> {
+                page = ascending ? abstractPuzzleRepository.findAllByOrderByDifficultyAsc(pageable)
+                        : abstractPuzzleRepository.findAllByOrderByDifficultyDesc(pageable);
+            }
+            case "rating" -> {
+                page = ascending ? abstractPuzzleRepository.findAllWithAverageRatingAsc(pageable)
+                        : abstractPuzzleRepository.findAllWithAverageRatingDesc(pageable);
+            }
+            case "date" -> {
+                sort = ascending
+                        ? Sort.by("dateOfAdding").ascending()
+                        : Sort.by("dateOfAdding").descending();
+                pageable = PageRequest.of(pageNum - 1, 3, sort);
+                page = abstractPuzzleRepository.findAll(pageable);
+            }
+            default -> {
+                return null;
+            }
+        }
 
-        return abstractPuzzleRepository.findAll(PageRequest.of(pageNum - 1, 3/*, sort*/));
+        return page;
     }
 
     public Optional<AbstractPuzzle> findAbstractPuzzleById(long id) {

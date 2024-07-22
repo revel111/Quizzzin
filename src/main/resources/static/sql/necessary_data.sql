@@ -4,9 +4,9 @@ VALUES ('USER'),
        ('ADMIN');
 
 INSERT INTO "DIFFICULTY" (NAME)
-VALUES ('EFFORTLESS'),
-       ('EASY'),
-       ('MEDIUM'),
-       ('NORMAL'),
-       ('HARD'),
-       ('IMPOSSIBLE');
+VALUES (0),
+       (1),
+       (2),
+       (3),
+       (4),
+       (5);

@@ -61,10 +61,15 @@ public class PuzzleController {
 
     @GetMapping("/page/{pageNum}")
     public String getPuzzles(@PathVariable int pageNum,
-            /*@RequestParam(value = "sortF", defaultValue = "difficultyType") String sortField,*/
-            /*@RequestParam(value = "sortDir", defaultValue = "asc") String sortDirection,*/
+                             @RequestParam(value = "sortBy", defaultValue = "rating") String sortBy,
+                             @RequestParam(value = "dir", defaultValue = "asc") String dir,
                              Model model) {
-        Page<FeedViewAbstractPuzzleDTO> page = abstractPuzzleService.toFeedViewPuzzlePage(abstractPuzzleService.getPuzzlesPage(pageNum/*, sortField, sortDirection*/));
+        Page<AbstractPuzzle> pageAbstract = abstractPuzzleService.getPuzzlesPage(pageNum, sortBy, dir);
+
+        if (pageAbstract == null)
+            return "redirect:/puzzles/page/1";
+
+        Page<FeedViewAbstractPuzzleDTO> page = abstractPuzzleService.toFeedViewPuzzlePage(pageAbstract);
 
         model.addAllAttributes(new HashMap<>() {
             {
@@ -72,9 +77,8 @@ public class PuzzleController {
                 put("totalPages", page.getTotalPages());
                 put("totalItems", page.getTotalElements());
                 put("puzzles", page.getContent());
-//                put("sortField", sortField);
-//                put("sortDirection", sortDirection);
-//                put("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+                put("sortField", sortBy);
+                put("sortDirection", dir);
             }
         });
 

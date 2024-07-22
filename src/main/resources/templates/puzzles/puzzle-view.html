@@ -13,7 +13,6 @@
         <p th:text="|Date of Adding: ${abstractPuzzleDTO.dateOfAdding}|"></p>
         <p th:text="|Difficulty: ${abstractPuzzleDTO.difficultyType}|"></p>
         <p th:text="|Puzzle Rating: ${abstractPuzzleDTO.rating}|"></p>
-        <!--        <p th:text="|Puzzle Scores: ${abstractPuzzleDTO.leaderboardDTOList}|"></p>-->
         <div th:if="${#lists.isEmpty(abstractPuzzleDTO.leaderboardDTOList)}">
             <p>No one solved this riddle</p>
         </div>
