@@ -1,5 +1,7 @@
 package com.example.quizzzin.mappers.puzzles;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -28,11 +30,17 @@ public interface AbstractPuzzleMapper {
     @Mapping(target = "rating", expression = "java(calculateAverageRating(abstractPuzzle.getPuzzleRatings()))")
     @Mapping(target = "leaderboardDTOList", expression = "java(mapUsersScores(abstractPuzzle.getPuzzleScores()))")
     @Mapping(target = "commentDTOList", expression = "java(mapViewComments(abstractPuzzle.getComments()))")
+    @Mapping(target = "dateOfAdding", expression = "java(mapDate(abstractPuzzle.getDateOfAdding()))")
     ViewAbstractPuzzleDTO toViewDTO(AbstractPuzzle abstractPuzzle);
 
     @Mapping(source = "difficulty.name", target = "difficultyType")
     @Mapping(target = "rating", expression = "java(calculateAverageRating(abstractPuzzle.getPuzzleRatings()))")
+    @Mapping(target = "dateOfAdding", expression = "java(mapDate(abstractPuzzle.getDateOfAdding()))")
     FeedViewAbstractPuzzleDTO toFeedViewDTO(AbstractPuzzle abstractPuzzle);
+
+    default String mapDate(LocalDateTime dateOfAdding) {
+        return dateOfAdding.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    }
 
     default double calculateAverageRating(Set<UserPuzzleRating> ratings) {
         if (ratings.isEmpty())

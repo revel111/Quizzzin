@@ -12,7 +12,7 @@ import java.util.List;
 public class ViewAbstractPuzzleDTO {
     private Long id;
     private String title;
-    private LocalDateTime dateOfAdding;
+    private String dateOfAdding;
     private String description;
     private DifficultyType difficultyType;
     private double rating;

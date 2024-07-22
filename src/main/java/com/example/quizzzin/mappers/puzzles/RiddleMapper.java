@@ -13,15 +13,8 @@ import org.mapstruct.factory.Mappers;
 public interface RiddleMapper {
     RiddleMapper INSTANCE = Mappers.getMapper(RiddleMapper.class);
 
-//    @Mapping(target = "difficultyType", source = "difficulty.name")
-//    RiddleDTO toRiddleDTO(Riddle riddle);
-
     Riddle toRiddle(AddRiddleDTO riddleDTO);
 
     @Mapping(source = "difficulty.name", target = "difficultyType")
     SolveRiddleDTO toSolveRiddleDTO(Riddle riddle);
-
-    default DifficultyType map(Difficulty difficulty) {
-        return difficulty.getName();
-    }
 }
