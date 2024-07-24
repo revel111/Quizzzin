@@ -4,9 +4,12 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import com.example.quizzzin.models.dto.puzzles.solve.SolveRiddleDTO;
+import com.example.quizzzin.models.dto.puzzles.solve.SolveWordleDTO;
 import com.example.quizzzin.models.entities.Riddle;
 import com.example.quizzzin.models.entities.User;
+import com.example.quizzzin.models.entities.Wordle;
 import com.example.quizzzin.services.RiddleService;
+import com.example.quizzzin.services.WordleService;
 import com.example.quizzzin.utilities.TypeDefiner;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +32,7 @@ import lombok.AllArgsConstructor;
 public class PuzzleController {
     private final AbstractPuzzleService abstractPuzzleService;
     private final RiddleService riddleService;
+    private final WordleService wordleService;
     private final TypeDefiner typeDefiner;
 
     @GetMapping("/{id}")
@@ -108,7 +112,18 @@ public class PuzzleController {
                 });
                 return "puzzles/solve-riddle";
             }
-            //TODO add implementation for the Wordle
+            case "Wordle" -> {
+                Wordle wordle = (Wordle) abstractPuzzle.get();
+                SolveWordleDTO solveWordleDTO = wordleService.toSolveWordleDTO(wordle);
+
+                model.addAllAttributes(new HashMap<>() {
+                    {
+                        put("puzzleID", id);
+                        put("solveWordleDTO", solveWordleDTO);
+                    }
+                });
+                return "puzzles/solve-wordle";
+            }
         }
 
         return "puzzles/solve-riddle"; //TODO redirect somewhere else (404), but technically unreachable

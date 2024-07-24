@@ -2,6 +2,7 @@ package com.example.quizzzin.services;
 
 import com.example.quizzzin.mappers.puzzles.WordleMapper;
 import com.example.quizzzin.models.dto.puzzles.add.AddWordleDTO;
+import com.example.quizzzin.models.dto.puzzles.solve.SolveWordleDTO;
 import com.example.quizzzin.models.entities.Wordle;
 import com.example.quizzzin.repositories.WordleRepository;
 import lombok.AllArgsConstructor;
@@ -22,5 +23,9 @@ public class WordleService {
 
     private Wordle toWordle(AddWordleDTO addWordleDTO) {
         return wordleMapper.toWordle(addWordleDTO);
+    }
+
+    public SolveWordleDTO toSolveWordleDTO(Wordle wordle) {
+        return wordleMapper.toSolveWordleDTO(wordle);
     }
 }
