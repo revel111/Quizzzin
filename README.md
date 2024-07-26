@@ -1,4 +1,4 @@
-Documentation:
+Documentation(deprecated a bit, it will be updated sooner):
 https://docs.google.com/document/d/1zdInJOXOGBdzLGbnw6tnm6g0bXcacG5qtv1Eg9Pg7M0/edit?usp=sharing
 
 Use-case diagram:
