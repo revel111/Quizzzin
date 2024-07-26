@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link th:href="@{/css/solve.css}" rel="stylesheet">
+</head>
+<body>
+<div th:fragment="successful (abstractSolve)" id="successPopup" class="popup">
+    <div class="popup-content">
+        <p>You successfully solved the riddle!
+            Please, rate the riddle on a scale of 1 to 5:</p>
+        <form th:action="@{/puzzles/{id}/rate(id=${abstractSolve.id})}" method="post">
+            <label>
+                <select name="rating">
+                    <option th:each="i : ${#numbers.sequence(1, 5)}">[[${i}]]</option>
+                </select>
+            </label>
+            <button type="submit">Submit rating and exit</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

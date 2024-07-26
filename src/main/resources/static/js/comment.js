@@ -75,6 +75,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return response.ok;
     }
-
-    document.getElementById('comment-form').addEventListener('submit', addComment);
 });

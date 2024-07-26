@@ -6,6 +6,8 @@ const state = {
     currentCol: 0
 };
 
+let successPopup = document.getElementById('successPopup');
+
 function updateGrid() {
     for (let i = 0; i < state.grid.length; i++)
         for (let j = 0; j < state.grid[i].length; j++) {
@@ -124,10 +126,13 @@ function revealWord(word) {
     }
 
     setTimeout(() => {
-        if (answer === word)
-            alert('Congratulations!');
-        else if (state.currentRow === 5)
-            alert(`You lost! The word was ${answer}.`);
+        if (answer === word) {
+            // alert('Congratulations!');
+            successPopup.style.display = "block";
+        }
+        else if (state.currentRow === 5) {
+            alert(`You lost! The word was ${answer}.`); // ! add losing functionality
+        }
     }, 3 * duration);
 }
 

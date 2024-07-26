@@ -6,6 +6,7 @@
 <head>
     <title th:text="${solveWordleDTO.title}"></title>
     <link th:href="@{/css/solve-wordle.css}" rel="stylesheet">
+    <link th:href="@{/css/solve.css}" rel="stylesheet">
     <style th:inline="css">
         :root {
             --column-number: [[${solveWordleDTO.answer.length()}]];
@@ -13,18 +14,10 @@
     </style>
 </head>
 <body>
-<!--<main layout:fragment="content">-->
-<!--    <div>-->
-<!--        <div th:each="i : ${#numbers.sequence(0, 6)}">-->
-<!--            <div class="square" th:each="i : ${#numbers.sequence(0, solveWordleDTO.answer.length())}">-->
-<!---->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+<!--<main>-->
+<div id="game"></div>
 
-<div id="game">
-</div>
-
+<div th:replace="~{boilerplates/fragments/solve_fragments :: successful (abstractSolve = ${solveWordleDTO})}"></div>
 
 <script th:inline="javascript">
     let colNum = [[${solveWordleDTO.answer.length()}]];

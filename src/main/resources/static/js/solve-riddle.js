@@ -41,7 +41,7 @@ answerBtn.onclick = function () {
 
     // Correct guess scenario + parsing answers
     if (parseAnswer(answerInput.value) === rightAnswer) {
-        successPopup.style.display = "block"; // !
+        successPopup.style.display = "block"; // ! OPEN TAB WITH RATING A PUZZLE.
         return true;
     }
 

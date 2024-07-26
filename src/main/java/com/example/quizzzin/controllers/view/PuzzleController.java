@@ -3,26 +3,19 @@ package com.example.quizzzin.controllers.view;
 import java.util.HashMap;
 import java.util.Optional;
 
+import com.example.quizzzin.models.dto.other.RatePuzzleDTO;
 import com.example.quizzzin.models.dto.puzzles.solve.SolveRiddleDTO;
 import com.example.quizzzin.models.dto.puzzles.solve.SolveWordleDTO;
-import com.example.quizzzin.models.entities.Riddle;
-import com.example.quizzzin.models.entities.User;
-import com.example.quizzzin.models.entities.Wordle;
-import com.example.quizzzin.services.RiddleService;
-import com.example.quizzzin.services.WordleService;
+import com.example.quizzzin.models.entities.*;
+import com.example.quizzzin.services.*;
 import com.example.quizzzin.utilities.TypeDefiner;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.quizzzin.models.dto.puzzles.get.FeedViewAbstractPuzzleDTO;
-import com.example.quizzzin.models.entities.AbstractPuzzle;
-import com.example.quizzzin.services.AbstractPuzzleService;
 
 import lombok.AllArgsConstructor;
 
@@ -31,9 +24,12 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class PuzzleController {
     private final AbstractPuzzleService abstractPuzzleService;
+    private final UserService userService;
+    private final UserPuzzleRatingService userPuzzleRatingService;
     private final RiddleService riddleService;
     private final WordleService wordleService;
     private final TypeDefiner typeDefiner;
+
 
     @GetMapping("/{id}")
     public String getPuzzle(Model model,
@@ -43,20 +39,13 @@ public class PuzzleController {
         if (abstractPuzzle.isEmpty())
             return "home";
 
-        Long userId = null;
-        User user;
-        try {
-            user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            userId = user.getId();
-        } catch (ClassCastException ignored) {
-        }
+        Long userId = userService.getAuthenticatedUserId();
 
-        Long finalUserId = userId;
         model.addAllAttributes(new HashMap<>() {
             {
                 put("puzzleID", id);
                 put("abstractPuzzleDTO", abstractPuzzleService.toViewAbstractPuzzleDTO(abstractPuzzle.get()));
-                put("userId", finalUserId);
+                put("userId", userId);
             }
         });
 
@@ -96,9 +85,6 @@ public class PuzzleController {
         if (abstractPuzzle.isEmpty())
             return "/home"; // ? or return 404
 
-//        SolveRiddleDTO solveRiddleDTO = abstractPuzzleService.toSolveRiddleDTO(abstractPuzzle.get());
-//        ViewAbstractPuzzleDTO abstractPuzzleDTO = abstractPuzzleService.toViewAbstractPuzzleDTO(abstractPuzzle.get());
-
         switch (typeDefiner.defineType(abstractPuzzle.get())) {
             case "Riddle" -> {
                 Riddle riddle = (Riddle) abstractPuzzle.get();
@@ -127,5 +113,13 @@ public class PuzzleController {
         }
 
         return "puzzles/solve-riddle"; //TODO redirect somewhere else (404), but technically unreachable
+    }
+
+    @PostMapping("/{id}/rate")
+    public String rateRiddle(@PathVariable long id,
+                             @RequestParam("rating") int rating) {
+        userPuzzleRatingService.save(new RatePuzzleDTO(id, rating));
+
+        return "redirect:/home";
     }
 }

@@ -19,14 +19,19 @@
         <div th:unless="${#lists.isEmpty(abstractPuzzleDTO.leaderboardDTOList)}">
             <span th:each="record, iter : ${abstractPuzzleDTO.leaderboardDTOList}">
                 <p th:inline="text">
-                    [[${iter.index + 1}]] <a th:href="@{/profile/{id}(id=${record.userId()})}">[[${record.nickname()}]]</a>:
+                    [[${iter.index + 1}]] <a
+                        th:href="@{/profile/{id}(id=${record.userId()})}">[[${record.nickname()}]]</a>:
                     [[${record.score()}]]
                 </p>
             </span>
         </div>
-        <a th:href="@{/puzzles/solve(id=${puzzleID})}">
-            <button>Solve this riddle</button>
-        </a>
+
+        <div>
+            <a th:href="@{/puzzles/solve(id=${puzzleID})}">
+                <button>Solve</button>
+            </a>
+        </div>
+
         <div>
             <div th:if="${#lists.isEmpty(abstractPuzzleDTO.commentDTOList)}">
                 <h1>No comments</h1>

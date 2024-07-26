@@ -5,6 +5,7 @@
 <head>
     <title th:text="${solveRiddleDTO.title}"></title>
     <link th:href="@{/css/solve-riddle.css}" rel="stylesheet">
+    <link th:href="@{/css/solve.css}" rel="stylesheet">
 </head>
 <body>
 <main layout:fragment="content">
@@ -19,23 +20,7 @@
         <input type="text" id="answerInput" placeholder="Answer">
         <button type="button" id="answerBtn">Submit an answer</button>
 
-        <!-- An example of a popup -->
-        <div id="successPopup" class="popup">
-            <div class="popup-content">
-                <p>You successfully solved the riddle!
-                    Please, rate the riddle on a scale of 0 to 5:</p>
-                <label>
-                    <select>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                    </select>
-                </label>
-                <button type="submit">Submit rating and exit (no functionality)</button>
-            </div>
-        </div>
+        <div th:replace="~{boilerplates/fragments/solve_fragments :: successful (abstractPuzzle = solveRiddleDTO)}"></div>
 
         <!-- Another example of a popup -->
         <div id="failurePopup" class="popup">
