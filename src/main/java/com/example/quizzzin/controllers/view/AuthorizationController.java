@@ -6,6 +6,9 @@ import com.example.quizzzin.services.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,7 +39,7 @@ public class AuthorizationController {
             bindingResult.rejectValue("email", "email.exists", "Email is already in use");
 
         if (bindingResult.hasErrors())
-            return "redirect:/register";
+            return "user/register";
 
         User user = userService.saveUser(registerUserDTO);
         log.info("User was added: {}", user);
@@ -46,6 +49,11 @@ public class AuthorizationController {
 
     @GetMapping("/login")
     public String login() {
-        return "user/login";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken)
+            return "user/login";
+
+        return "redirect:/home";
     }
 }

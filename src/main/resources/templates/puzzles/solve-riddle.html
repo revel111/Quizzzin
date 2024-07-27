@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{boilerplates/layout}">
+      layout:decorate="~{boilerplates/layouts/solving-layout}">
 <head>
     <title th:text="${solveRiddleDTO.title}"></title>
     <link th:href="@{/css/solve-riddle.css}" rel="stylesheet">
@@ -20,7 +20,7 @@
         <input type="text" id="answerInput" placeholder="Answer">
         <button type="button" id="answerBtn">Submit an answer</button>
 
-        <div th:replace="~{boilerplates/fragments/solve_fragments :: successful (abstractPuzzle = solveRiddleDTO)}"></div>
+        <div th:replace="~{boilerplates/fragments/solve-fragments :: successful (abstractSolve = ${solveRiddleDTO})}"></div>
 
         <!-- Another example of a popup -->
         <div id="failurePopup" class="popup">

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @AllArgsConstructor
 public class AccountController {
-    @GetMapping("/account")
+    @GetMapping("/settings/account")
     public String account(Model model) {
         return "user/account";
     }

@@ -115,7 +115,7 @@ function revealWord(word) {
         setTimeout(() => {
             if (letter === answer[i])
                 box.classList.add('right');
-            else if (letter.includes(letter))
+            else if (answer.includes(letter))
                 box.classList.add('wrong');
             else
                 box.classList.add('empty');

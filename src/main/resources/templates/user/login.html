@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{boilerplates/layout}">
+      layout:decorate="~{boilerplates/layouts/layout}">
 <head>
     <title>Login</title>
 </head>
 <body>
 <main layout:fragment="content">
     <div>
-        <form method="post" th:action="@{/quizzzin/login}">
+        <form method="post" th:action="@{/login}">
             <label>
                 Enter email
                 <br>

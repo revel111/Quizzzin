@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!--      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"-->
-<!--      layout:decorate="~{boilerplates/layout}"-->
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{boilerplates/layouts/solving-layout}">
 <head>
     <title th:text="${solveWordleDTO.title}"></title>
     <link th:href="@{/css/solve-wordle.css}" rel="stylesheet">
@@ -14,16 +13,16 @@
     </style>
 </head>
 <body>
-<!--<main>-->
-<div id="game"></div>
+<main layout:fragment="content">
+    <div id="game"></div>
 
-<div th:replace="~{boilerplates/fragments/solve_fragments :: successful (abstractSolve = ${solveWordleDTO})}"></div>
+    <div th:replace="~{boilerplates/fragments/solve-fragments :: successful (abstractSolve = ${solveWordleDTO})}"></div>
 
-<script th:inline="javascript">
-    let colNum = [[${solveWordleDTO.answer.length()}]];
-    let answer = [[${solveWordleDTO.answer}]];
-</script>
-<script type="text/javascript" th:src="@{/js/solve-wordle.js}" defer></script>
-<!--</main>-->
+    <script th:inline="javascript">
+        let colNum = [[${solveWordleDTO.answer.length()}]];
+        let answer = [[${solveWordleDTO.answer}]];
+    </script>
+    <script type="text/javascript" th:src="@{/js/solve-wordle.js}" defer></script>
+</main>
 </body>
 </html>

@@ -18,14 +18,14 @@
     </div>
 
     <div sec:authorize="isAuthenticated()">
-        <a th:href="@{/account}" th:text="${#authentication.name}"></a>
+        <a th:href="@{/settings/account}" th:text="${#authentication.name}"></a>
         <br>
         <a th:href="@{/logout}">Logout</a>
     </div>
 </header>
 
 <footer th:fragment="footer" style="padding-top: 100px;">
-    rxvxl X beispielsweise
+    rxvxl
 </footer>
 </body>
 </html>
