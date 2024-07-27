@@ -20,7 +20,7 @@
 
     <script th:inline="javascript">
         let colNum = [[${solveWordleDTO.answer.length()}]];
-        let answer = [[${solveWordleDTO.answer}]];
+        let answer = [[${solveWordleDTO.answer.toLowerCase()}]];
     </script>
     <script type="text/javascript" th:src="@{/js/solve-wordle.js}" defer></script>
 </main>

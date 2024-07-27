@@ -83,7 +83,7 @@ public class PuzzleController {
                               @RequestParam(name = "id") long id) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
         if (abstractPuzzle.isEmpty())
-            return "/home"; // ? or return 404
+            return "home"; // ? or return 404
 
         switch (typeDefiner.defineType(abstractPuzzle.get())) {
             case "Riddle" -> {

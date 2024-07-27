@@ -46,6 +46,6 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService(UserService userService) {
         return email -> userService.findUserByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User '" + email + "' not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User with email '" + email + "' not found"));
     }
 }

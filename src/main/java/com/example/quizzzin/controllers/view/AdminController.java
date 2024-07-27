@@ -29,14 +29,26 @@ public class AdminController {
     public String addWordle(Model model) {
         model.addAttribute("wordleDTO", new AddWordleDTO());
         model.addAttribute("difficulties", DifficultyType.values());
+
         return "admin/add-wordle";
     }
 
     @PostMapping("/add-wordle")
     public String addWordle(@Valid @ModelAttribute("wordleDTO") AddWordleDTO wordleDTO,
-                            BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
-            return "redirect:/admin/add-wordle";
+                            BindingResult bindingResult,
+                            Model model) {
+        String answer = wordleDTO.getAnswer().toLowerCase();
+
+        if (wordleService.findWordleByAnswer(answer).isPresent())
+            bindingResult.rejectValue("answer", "wordle.exists", "wordle with such answer exists");
+
+        if (!wordleService.checkWordInAPIDictionary(answer))
+            bindingResult.rejectValue("answer", "answer.inappropriate", "this word is inappropriate");
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("difficulties", DifficultyType.values());
+            return "admin/add-wordle";
+        }
 
         AbstractPuzzle wordle = wordleService.saveWordle(wordleDTO);
         log.info("Wordle was added: {}", wordle);
@@ -48,6 +60,7 @@ public class AdminController {
     public String addRiddle(Model model) {
         model.addAttribute("riddleDTO", new AddRiddleDTO());
         model.addAttribute("difficulties", DifficultyType.values());
+
         return "admin/add-riddle";
     }
 
@@ -55,7 +68,7 @@ public class AdminController {
     public String addRiddle(@Valid @ModelAttribute("riddleDTO") AddRiddleDTO riddleDTO,
                             BindingResult bindingResult) {
         if (bindingResult.hasErrors())
-            return "redirect:/admin/add-riddle";
+            return "admin/add-riddle";
 
         AbstractPuzzle riddle = riddleService.saveRiddle(riddleDTO);
         log.info("Riddle was added: {}", riddle);

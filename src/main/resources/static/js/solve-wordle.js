@@ -18,6 +18,7 @@ function updateGrid() {
 
 function startup() {
     const game = document.getElementById('game');
+
     drawGrid(game);
     registerKeyboardEvents();
 }
@@ -85,7 +86,7 @@ function removeLetter() {
 }
 
 function getCurrentWord() {
-    return state.grid[state.currentRow].reduce((prev, curr) => prev + curr);
+    return state.grid[state.currentRow].reduce((prev, curr) => prev + String(curr), '').toLowerCase();
 }
 
 async function isValid(word) {
@@ -110,7 +111,7 @@ function revealWord(word) {
 
     for (let i = 0; i < colNum; i++) {
         const box = document.getElementById(`box${row}${i}`);
-        const letter = box.textContent;
+        const letter = box.textContent.toLowerCase();
 
         setTimeout(() => {
             if (letter === answer[i])
@@ -130,7 +131,7 @@ function revealWord(word) {
             // alert('Congratulations!');
             successPopup.style.display = "block";
         }
-        else if (state.currentRow === 5) {
+        else if (state.currentRow === 6) {
             alert(`You lost! The word was ${answer}.`); // ! add losing functionality
         }
     }, 3 * duration);
