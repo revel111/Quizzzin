@@ -10,6 +10,7 @@ public class FeedViewAbstractPuzzleDTO {
     private long id;
     private DifficultyType difficultyType;
     private String title;
+    private String type;
     private double rating;
     private String dateOfAdding;
 }

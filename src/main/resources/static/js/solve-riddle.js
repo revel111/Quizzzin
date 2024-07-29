@@ -13,7 +13,6 @@ const counter = (function () {
 
 /*
 Initializing all HTML elements, that we will interact with.
-Let rightAnswer - self-explanatory
 */
 rightAnswer = parseAnswer(rightAnswer);
 
@@ -47,9 +46,9 @@ answerBtn.onclick = function () {
 
     // Incorrect guess scenario
     counter.decrement();
-    if (counter.getCount() > 0) {
+    if (counter.getCount() > 0)
         failureText.innerHTML = counter.getCount();
-    } else {
+    else {
         failureText.innerHTML = "None! Better luck next time!";
         closeSpan.style.display = "none";       // User can't just close the popup now, he either refreshes the page or exits
         hiddenButton1.style.display = "block";  // Initially hidden buttons are now visible

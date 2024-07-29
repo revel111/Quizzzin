@@ -1,18 +1,13 @@
 package com.example.quizzzin.repositories;
 
-import java.util.List;
-import java.util.Set;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.quizzzin.models.entities.AbstractPuzzle;
-import com.example.quizzzin.models.entities.Difficulty;
 
 @Repository
 public interface AbstractPuzzleRepository extends JpaRepository<AbstractPuzzle, Long> {

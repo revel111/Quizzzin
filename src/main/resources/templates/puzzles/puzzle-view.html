@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorate="~{boilerplates/layouts/layout}">
 <head>
     <title th:text="${abstractPuzzleDTO.title}"></title>
+    <link th:href="@{/css/solve.css}" rel="stylesheet">
 </head>
 <body>
 <main layout:fragment="content">
     <div th:if="${abstractPuzzleDTO}">
         <p th:text="|Title: ${abstractPuzzleDTO.title}|"></p>
+        <p th:text="|Type: ${abstractPuzzleDTO.type}|"></p>
         <p th:text="|Description: ${abstractPuzzleDTO.description}|"></p>
         <p th:text="|Date of Adding: ${abstractPuzzleDTO.dateOfAdding}|"></p>
         <p th:text="|Difficulty: ${abstractPuzzleDTO.difficultyType}|"></p>
         <p th:text="|Puzzle Rating: ${abstractPuzzleDTO.rating}|"></p>
         <div th:if="${#lists.isEmpty(abstractPuzzleDTO.leaderboardDTOList)}">
-            <p>No one solved this riddle</p>
+            <p th:text="|No one solved this ${abstractPuzzleDTO.type.toLowerCase()}|"></p>
         </div>
         <div th:unless="${#lists.isEmpty(abstractPuzzleDTO.leaderboardDTOList)}">
             <span th:each="record, iter : ${abstractPuzzleDTO.leaderboardDTOList}">
@@ -26,11 +30,22 @@
             </span>
         </div>
 
-        <div>
+        <div th:if="${isSolved}">
+            <p th:text="|You have already solved this ${abstractPuzzleDTO.type}|"></p>
+        </div>
+        <div th:unless="${isSolved}">
             <a th:href="@{/puzzles/solve(id=${puzzleID})}">
                 <button>Solve</button>
             </a>
         </div>
+
+        <div sec:authorize="isAuthenticated()">
+            <div th:if="${!isRated} and ${isSolved}">
+                <button type="button" id="rateBtn">Rate</button>
+            </div>
+        </div>
+
+        <div th:replace="~{boilerplates/fragments/solve-fragments :: successful (abstractSolve = ${abstractPuzzleDTO})}"></div>
 
         <div>
             <div th:if="${#lists.isEmpty(abstractPuzzleDTO.commentDTOList)}">
@@ -52,7 +67,8 @@
                 </ul>
             </div>
 
-            <div th:if="${userId != null}">
+            <div sec:authorize="isAuthenticated()">
+                <!--            <div th:if="${userId != null}">-->
                 <form id="comment-form" onsubmit="addComment(this)">
                     <textarea id="comment-content" required></textarea>
                     <input type="hidden" id="user-id" th:value="${userId}">
@@ -64,6 +80,8 @@
             <script type="text/javascript" th:src="@{/js/comment.js}" defer></script>
         </div>
     </div>
+
+    <script type="text/javascript" th:src="@{/js/rate-puzzle.js}" defer></script>
 </main>
 </body>
 </html>

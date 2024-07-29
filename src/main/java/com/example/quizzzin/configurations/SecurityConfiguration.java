@@ -29,7 +29,8 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasAuthority(ADMIN.name())
-                        .requestMatchers("/puzzles/solve").authenticated()
+                        .requestMatchers("/puzzles/solve").authenticated() // TODO same as for rating
+                        .requestMatchers("/puzzles/*/rate").authenticated() //TODO add filter for checking whether it was rated
                         .requestMatchers("/settings/account").authenticated()
                         .anyRequest().permitAll()
                 )

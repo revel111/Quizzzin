@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserPuzzleScoreRepository extends CrudRepository<UserPuzzleScore, Long> {
@@ -18,4 +19,6 @@ public interface UserPuzzleScoreRepository extends CrudRepository<UserPuzzleScor
             ORDER BY SUM(l.score) DESC
             """)
     List<LeaderboardDTO> getGlobalLeaderBoard(Pageable pageable);
+
+    Optional<UserPuzzleScore> findById_PuzzleIdAndUser_Id(Long puzzleId, Long userId);
 }

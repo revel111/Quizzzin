@@ -28,8 +28,8 @@ public class PuzzleController {
     private final UserPuzzleRatingService userPuzzleRatingService;
     private final RiddleService riddleService;
     private final WordleService wordleService;
+    private final UserPuzzleScoreService userPuzzleScoreService;
     private final TypeDefiner typeDefiner;
-
 
     @GetMapping("/{id}")
     public String getPuzzle(Model model,
@@ -46,6 +46,8 @@ public class PuzzleController {
                 put("puzzleID", id);
                 put("abstractPuzzleDTO", abstractPuzzleService.toViewAbstractPuzzleDTO(abstractPuzzle.get()));
                 put("userId", userId);
+                put("isSolved", userPuzzleScoreService.findByPuzzleIdAndUserId(id, userId).isPresent());
+                put("isRated", userPuzzleRatingService.findByPuzzleIdAndUserId(id, userId).isPresent());
             }
         });
 
@@ -83,7 +85,7 @@ public class PuzzleController {
                               @RequestParam(name = "id") long id) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
         if (abstractPuzzle.isEmpty())
-            return "home"; // ? or return 404
+            return "home"; // ! return 404
 
         switch (typeDefiner.defineType(abstractPuzzle.get())) {
             case "Riddle" -> {
@@ -112,7 +114,7 @@ public class PuzzleController {
             }
         }
 
-        return "puzzles/solve-riddle"; //TODO redirect somewhere else (404), but technically unreachable
+        return "puzzles/solve-riddle"; // ! return 404
     }
 
     @PostMapping("/{id}/rate")

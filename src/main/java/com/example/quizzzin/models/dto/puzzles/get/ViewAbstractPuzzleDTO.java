@@ -14,6 +14,7 @@ public class ViewAbstractPuzzleDTO {
     private String title;
     private String dateOfAdding;
     private String description;
+    private String type;
     private DifficultyType difficultyType;
     private double rating;
     private List<LeaderboardDTO> leaderboardDTOList;

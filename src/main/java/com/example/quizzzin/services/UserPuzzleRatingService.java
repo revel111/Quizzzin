@@ -34,4 +34,8 @@ public class UserPuzzleRatingService {
 
         return userPuzzleRatingRepository.save(userPuzzleRating);
     }
+
+    public Optional<UserPuzzleRating> findByPuzzleIdAndUserId(Long puzzleId, Long userId) {
+        return userPuzzleRatingRepository.findById_PuzzleIdAndUser_Id(puzzleId, userId);
+    }
 }

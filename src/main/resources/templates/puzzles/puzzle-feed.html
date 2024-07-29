@@ -26,6 +26,8 @@
         <li th:each="puzzle : ${puzzles}">
             <a th:href="@{'/puzzles/' + ${puzzle.id}}" th:data-id="${puzzle.id}" th:text="${puzzle.title}"></a>
             <br>
+            <p th:text="|Type: ${puzzle.type}|"></p>
+            <br>
             <p th:text="|Difficulty: ${puzzle.difficultyType}|"></p>
             <br>
             <p th:text="|Rating: ${puzzle.rating}|"></p>

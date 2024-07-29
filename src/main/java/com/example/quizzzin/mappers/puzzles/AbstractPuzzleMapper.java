@@ -31,15 +31,21 @@ public interface AbstractPuzzleMapper {
     @Mapping(target = "leaderboardDTOList", expression = "java(mapUsersScores(abstractPuzzle.getPuzzleScores()))")
     @Mapping(target = "commentDTOList", expression = "java(mapViewComments(abstractPuzzle.getComments()))")
     @Mapping(target = "dateOfAdding", expression = "java(mapDate(abstractPuzzle.getDateOfAdding()))")
+    @Mapping(target = "type", expression = "java(mapType(abstractPuzzle))")
     ViewAbstractPuzzleDTO toViewDTO(AbstractPuzzle abstractPuzzle);
 
     @Mapping(source = "difficulty.name", target = "difficultyType")
     @Mapping(target = "rating", expression = "java(calculateAverageRating(abstractPuzzle.getPuzzleRatings()))")
     @Mapping(target = "dateOfAdding", expression = "java(mapDate(abstractPuzzle.getDateOfAdding()))")
+    @Mapping(target = "type", expression = "java(mapType(abstractPuzzle))")
     FeedViewAbstractPuzzleDTO toFeedViewDTO(AbstractPuzzle abstractPuzzle);
 
     default String mapDate(LocalDateTime dateOfAdding) {
         return dateOfAdding.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    }
+
+    default String mapType(AbstractPuzzle abstractPuzzle) {
+        return abstractPuzzle.getClass().getSimpleName();
     }
 
     default double calculateAverageRating(Set<UserPuzzleRating> ratings) {
