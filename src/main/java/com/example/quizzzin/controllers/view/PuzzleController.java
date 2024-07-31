@@ -33,8 +33,7 @@ public class PuzzleController {
 
     @GetMapping("/{id}")
     public String getPuzzle(Model model,
-                            @PathVariable long id/*,
-                            HttpSession session*/) {
+                            @PathVariable long id) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
         if (abstractPuzzle.isEmpty())
             return "home";
@@ -85,36 +84,48 @@ public class PuzzleController {
                               @RequestParam(name = "id") long id) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
         if (abstractPuzzle.isEmpty())
-            return "home"; // ! return 404
+            return "home"; // TODO return 404
+
+        model.addAllAttributes(new HashMap<>() {
+            {
+                put("puzzleID", id);
+                put("userID", userService.getAuthenticatedUserId());
+            }
+        });
 
         switch (typeDefiner.defineType(abstractPuzzle.get())) {
             case "Riddle" -> {
                 Riddle riddle = (Riddle) abstractPuzzle.get();
                 SolveRiddleDTO riddleDTO = riddleService.toSolveRiddleDTO(riddle);
 
-                model.addAllAttributes(new HashMap<>() {
-                    {
-                        put("puzzleID", id);
-                        put("solveRiddleDTO", riddleDTO);
-                    }
-                });
+
+                model.addAttribute("solveRiddleDTO", riddleDTO);
+//                model.addAllAttributes(new HashMap<>() {
+//                    {
+//                        put("solveRiddleDTO", riddleDTO);
+//                    }
+//                });
                 return "puzzles/solve-riddle";
             }
             case "Wordle" -> {
                 Wordle wordle = (Wordle) abstractPuzzle.get();
                 SolveWordleDTO solveWordleDTO = wordleService.toSolveWordleDTO(wordle);
 
-                model.addAllAttributes(new HashMap<>() {
-                    {
-                        put("puzzleID", id);
-                        put("solveWordleDTO", solveWordleDTO);
-                    }
-                });
+                // ! Checking whether the API works
+                if (!wordleService.checkWordInAPIDictionary("word"))
+                    return "redirect:home"; // TODO Redirect to some page with explanation why user can't solve a wordle.
+
+                model.addAttribute("solveWordleDTO", solveWordleDTO);
+//                model.addAllAttributes(new HashMap<>() {
+//                    {
+//                        put("solveWordleDTO", solveWordleDTO);
+//                    }
+//                });
                 return "puzzles/solve-wordle";
             }
         }
 
-        return "puzzles/solve-riddle"; // ! return 404
+        return "puzzles/solve-riddle"; // TODO return 404
     }
 
     @PostMapping("/{id}/rate")

@@ -12,7 +12,9 @@
 <header th:fragment="header" style="padding-bottom: 100px;">
     <h1>Will be extended...</h1>
     <a th:href="@{/home}">Homepage</a><br>
-    <a th:href="@{/admin}">Admin homepage</a><br>
+    <div sec:authorize="hasAuthority('ADMIN')">
+        <a th:href="@{/admin}">Admin homepage</a><br>
+    </div>
     <a th:href="@{/puzzles/page/1}">Puzzlefeed</a><br>
 
     <div sec:authorize="!isAuthenticated()">

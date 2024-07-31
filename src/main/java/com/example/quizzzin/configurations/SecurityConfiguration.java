@@ -1,6 +1,5 @@
 package com.example.quizzzin.configurations;
 
-import com.example.quizzzin.enums.RoleType;
 import com.example.quizzzin.services.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

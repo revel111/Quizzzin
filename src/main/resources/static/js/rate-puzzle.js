@@ -3,5 +3,4 @@ let successPopup = document.getElementById('successPopup');
 
 rateBtn.onclick = function () {
     successPopup.style.display = "block";
-    return
 }

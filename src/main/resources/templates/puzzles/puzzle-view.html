@@ -42,6 +42,7 @@
         <div sec:authorize="isAuthenticated()">
             <div th:if="${!isRated} and ${isSolved}">
                 <button type="button" id="rateBtn">Rate</button>
+                <script type="text/javascript" th:src="@{/js/rate-puzzle.js}" defer></script>
             </div>
         </div>
 
@@ -53,35 +54,30 @@
             </div>
             <div th:unless="${#lists.isEmpty(abstractPuzzleDTO.commentDTOList)}">
                 <h1>Comments:</h1>
-
-                <ul id="comments-list">
-                    <li th:each="comment : ${abstractPuzzleDTO.commentDTOList}"
-                        th:attr="data-id=${comment.id}">
-                        <p th:text="|${comment.username}: at ${comment.dateOfAdding}|"></p>
-                        <p class="comment-text" th:text="${comment.text}"></p>
-                        <div th:if="${userId} != null and ${comment.userId} == ${userId}">
-                            <button onclick="editComment(this)">Edit</button>
-                            <button onclick="deleteComment(this)">Delete</button>
-                        </div>
-                    </li>
-                </ul>
             </div>
+            <ul id="comments-list">
+                <li th:each="comment : ${abstractPuzzleDTO.commentDTOList}"
+                    th:attr="data-id=${comment.id}">
+                    <p th:text="|${comment.username}: at ${comment.dateOfAdding}|"></p>
+                    <p class="comment-text" th:text="${comment.text}"></p>
+                    <div th:if="${userId} != null and ${comment.userId} == ${userId}">
+                        <button onclick="editComment(this)">Edit</button>
+                        <button onclick="deleteComment(this)">Delete</button>
+                    </div>
+                </li>
+            </ul>
 
             <div sec:authorize="isAuthenticated()">
-                <!--            <div th:if="${userId != null}">-->
-                <form id="comment-form" onsubmit="addComment(this)">
+                <form id="comment-form">
                     <textarea id="comment-content" required></textarea>
                     <input type="hidden" id="user-id" th:value="${userId}">
                     <input type="hidden" id="puzzle-id" th:value="${abstractPuzzleDTO.id}">
                     <button type="submit">Add Comment</button>
                 </form>
+                <script type="text/javascript" th:src="@{/js/comment.js}" defer></script>
             </div>
-
-            <script type="text/javascript" th:src="@{/js/comment.js}" defer></script>
         </div>
     </div>
-
-    <script type="text/javascript" th:src="@{/js/rate-puzzle.js}" defer></script>
 </main>
 </body>
 </html>

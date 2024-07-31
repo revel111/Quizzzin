@@ -2,7 +2,7 @@
 const counter = (function () {
     let count = 6; // Initial tries value
 
-    const decrement = (x = 1) => count = count - x;
+    const decrement = (x = 1) => count -= x;
     const getCount = () => count;
 
     return {
@@ -16,7 +16,8 @@ Initializing all HTML elements, that we will interact with.
 */
 rightAnswer = parseAnswer(rightAnswer);
 
-let successPopup = document.getElementById('successPopup');
+// let successPopup = document.getElementById('successPopup');
+// let scorePopup = document.getElementById('scorePopup');
 let failurePopup = document.getElementById('failurePopup');
 
 let answerBtn = document.getElementById('answerBtn');
@@ -40,7 +41,7 @@ answerBtn.onclick = function () {
 
     // Correct guess scenario + parsing answers
     if (parseAnswer(answerInput.value) === rightAnswer) {
-        successPopup.style.display = "block"; // ! OPEN TAB WITH RATING A PUZZLE.
+        process();
         return true;
     }
 

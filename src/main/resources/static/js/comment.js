@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const idUser = document.getElementById('user-id').value;
         const idPuzzle = document.getElementById('puzzle-id').value;
 
-        const response = await fetch('/quizzzin/comments', {
+        const response = await fetch(`/quizzzin/api/comments`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const commentElement = button.closest('li');
         const commentId = commentElement.getAttribute('data-id');
 
-        const response = await fetch(`/quizzzin/comments/${commentId}`, {
+        const response = await fetch(`/quizzzin/api/comments/${commentId}`, {
             method: 'DELETE',
         });
 
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function updateComment(commentId, content) {
-        const response = await fetch(`/quizzzin/comments/${commentId}`, {
+        const response = await fetch(`/quizzzin/api/comments/${commentId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -75,4 +75,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         return response.ok;
     }
+
+    document.getElementById('comment-form').addEventListener('submit', addComment);
 });

@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/comments")
+@RequestMapping("/api/comments")
 public class CommentAPIController {
     private final CommentService commentService;
 
