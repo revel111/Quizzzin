@@ -18,11 +18,12 @@
     <a th:href="@{/puzzles/page/1}">Puzzlefeed</a><br>
 
     <div sec:authorize="!isAuthenticated()">
-        <a th:href="@{/login}">Login</a>
+        <a th:href="@{/login}">Login</a><br>
+        <a th:href="@{/register}">Register</a><br>
     </div>
 
     <div sec:authorize="isAuthenticated()">
-        <a th:href="@{/settings/account}" th:text="${#authentication.name}"></a>
+        <a th:href="@{/account}" th:text="${#authentication.name}"></a>
         <br>
         <a th:href="@{/logout}">Logout</a>
     </div>

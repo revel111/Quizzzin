@@ -10,6 +10,7 @@ import com.example.quizzzin.models.entities.*;
 import com.example.quizzzin.services.*;
 import com.example.quizzzin.utilities.TypeDefiner;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,13 +33,15 @@ public class PuzzleController {
     private final TypeDefiner typeDefiner;
 
     @GetMapping("/{id}")
-    public String getPuzzle(Model model,
+    public String getPuzzle(/*@AuthenticationPrincipal User user,*/
+                            Model model,
                             @PathVariable long id) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
         if (abstractPuzzle.isEmpty())
             return "home";
 
         Long userId = userService.getAuthenticatedUserId();
+//        Long userId = user.getId();
 
         model.addAllAttributes(new HashMap<>() {
             {
@@ -80,7 +83,8 @@ public class PuzzleController {
     }
 
     @GetMapping("/solve")
-    public String solveRiddle(Model model,
+    public String solveRiddle(@AuthenticationPrincipal User user,
+                              Model model,
                               @RequestParam(name = "id") long id) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
         if (abstractPuzzle.isEmpty())
@@ -89,7 +93,8 @@ public class PuzzleController {
         model.addAllAttributes(new HashMap<>() {
             {
                 put("puzzleID", id);
-                put("userID", userService.getAuthenticatedUserId());
+//                put("userID", userService.getAuthenticatedUserId());
+                put("userID", user.getId());
             }
         });
 
