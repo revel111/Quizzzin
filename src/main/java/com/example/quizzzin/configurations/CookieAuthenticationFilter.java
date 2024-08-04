@@ -14,6 +14,10 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+/**
+ * DON'T USE!
+ * @deprecated
+ */
 public class CookieAuthenticationFilter extends OncePerRequestFilter {
     public static final String COOKIE_NAME = "auth_by_cookie";
 

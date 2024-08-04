@@ -18,6 +18,10 @@ import java.util.Base64;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * DON'T USE!
+ * @deprecated
+ */
 @Service
 @AllArgsConstructor
 public class AuthenticationService {

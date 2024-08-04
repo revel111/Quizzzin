@@ -14,6 +14,10 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 
+/**
+ * DON'T USE!
+ * @deprecated
+ */
 public class EmailPasswordAuthFilter extends OncePerRequestFilter {
     private final ObjectMapper MAPPER = new ObjectMapper();
 

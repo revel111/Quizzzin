@@ -10,6 +10,10 @@ import org.springframework.security.web.authentication.preauth.PreAuthenticatedA
 
 import com.example.quizzzin.models.entities.User;
 
+/**
+ * DON'T USE!
+ * @deprecated
+ */
 @AllArgsConstructor
 public class UserAuthProvider implements AuthenticationProvider {
     private final AuthenticationService authenticationService;

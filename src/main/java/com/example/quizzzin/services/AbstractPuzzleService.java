@@ -14,12 +14,29 @@ import com.example.quizzzin.repositories.AbstractPuzzleRepository;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * The AbstractPuzzleService class provides operations for managing puzzles in the application.
+ * This includes retrieving paginated puzzles, converting puzzle entities to DTOs,
+ * and finding puzzles by their ID.
+ * <p>
+ * Dependencies:
+ * - {@link AbstractPuzzleRepository}: Repository for puzzle persistence operations.
+ * - {@link AbstractPuzzleMapper}: Mapper for converting between AbstractPuzzle entities and DTOs.
+ */
 @AllArgsConstructor
 @Service
 public class AbstractPuzzleService {
     private final AbstractPuzzleRepository abstractPuzzleRepository;
     private final AbstractPuzzleMapper abstractPuzzleMapper = AbstractPuzzleMapper.INSTANCE;
 
+    /**
+     * Retrieves a paginated list of puzzles sorted by the specified criteria.
+     *
+     * @param pageNum The page number to retrieve.
+     * @param sortBy  The field to sort by (difficulty, rating, date).
+     * @param dir     The direction of sorting (asc or desc).
+     * @return A paginated list of {@link AbstractPuzzle} entities.
+     */
     public Page<AbstractPuzzle> getPuzzlesPage(int pageNum, String sortBy, String dir) {
         Page<AbstractPuzzle> page;
         Sort sort;
@@ -50,18 +67,42 @@ public class AbstractPuzzleService {
         return page;
     }
 
+    /**
+     * Finds a puzzle by its ID.
+     *
+     * @param id The ID of the puzzle to find.
+     * @return An Optional containing the found {@link AbstractPuzzle} entity, or empty if not found.
+     */
     public Optional<AbstractPuzzle> findAbstractPuzzleById(long id) {
         return abstractPuzzleRepository.findById(id);
     }
 
+    /**
+     * Converts an AbstractPuzzle entity to a ViewAbstractPuzzleDTO using the AbstractPuzzleMapper.
+     *
+     * @param abstractPuzzle The AbstractPuzzle entity to convert.
+     * @return The converted {@link ViewAbstractPuzzleDTO}.
+     */
     public ViewAbstractPuzzleDTO toViewAbstractPuzzleDTO(AbstractPuzzle abstractPuzzle) {
         return abstractPuzzleMapper.toViewDTO(abstractPuzzle);
     }
 
+    /**
+     * Converts an AbstractPuzzle entity to a FeedViewAbstractPuzzleDTO using the AbstractPuzzleMapper.
+     *
+     * @param abstractPuzzle The AbstractPuzzle entity to convert.
+     * @return The converted {@link FeedViewAbstractPuzzleDTO}.
+     */
     public FeedViewAbstractPuzzleDTO toFeedViewAbstractPuzzleDTO(AbstractPuzzle abstractPuzzle) {
         return abstractPuzzleMapper.toFeedViewDTO(abstractPuzzle);
     }
 
+    /**
+     * Converts a paginated list of AbstractPuzzle entities to a paginated list of FeedViewAbstractPuzzleDTOs.
+     *
+     * @param puzzlePage The page of AbstractPuzzle entities to convert.
+     * @return A paginated list of {@link FeedViewAbstractPuzzleDTO}.
+     */
     public Page<FeedViewAbstractPuzzleDTO> toFeedViewPuzzlePage(Page<AbstractPuzzle> puzzlePage) {
         List<FeedViewAbstractPuzzleDTO> abstractPuzzleDTOList = puzzlePage.stream()
                 .map(this::toFeedViewAbstractPuzzleDTO)

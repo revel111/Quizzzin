@@ -13,6 +13,10 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
+/**
+ * DON'T USE!
+ * @deprecated
+ */
 @Component
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
