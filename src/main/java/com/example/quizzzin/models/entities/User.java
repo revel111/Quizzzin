@@ -129,6 +129,12 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private Set<Comment> comments;
 
+    @OneToMany(mappedBy = "user")
+    private Set<SecureToken> tokens;
+
+    @Column(name = "is_verified")
+    private boolean accountVerified;
+
     /**
      * Return the authorities granted to the user.
      * This method converts the user's authorities to {@link GrantedAuthority} objects used by Spring Security.
@@ -151,5 +157,10 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return accountVerified;
     }
 }

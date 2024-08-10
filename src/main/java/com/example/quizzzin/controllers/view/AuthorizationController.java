@@ -1,7 +1,9 @@
 package com.example.quizzzin.controllers.view;
 
 import com.example.quizzzin.models.dto.other.RegisterUserDTO;
+import com.example.quizzzin.models.entities.SecureToken;
 import com.example.quizzzin.models.entities.User;
+import com.example.quizzzin.services.SecureTokenService;
 import com.example.quizzzin.services.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
@@ -29,6 +32,7 @@ import java.util.Optional;
 @Slf4j
 public class AuthorizationController {
     private final UserService userService;
+    private final SecureTokenService secureTokenService;
     //private final AuthenticationService authenticationService;
 
     /**
@@ -56,7 +60,7 @@ public class AuthorizationController {
      * </p>
      *
      * @param registerUserDTO the {@link RegisterUserDTO} object containing user registration details
-     * @param bindingResult the {@link BindingResult} object used to store validation errors
+     * @param bindingResult   the {@link BindingResult} object used to store validation errors
      * @return the name of the view to be rendered or a redirect URL based on validation results
      */
     @PostMapping("/register")
@@ -70,10 +74,16 @@ public class AuthorizationController {
         if (bindingResult.hasErrors())
             return "user/register";
 
-        User user = userService.saveUser(registerUserDTO);
+        User user = userService.registerUser(registerUserDTO);
         log.info("User was added: {}", user);
 
         return "redirect:/login";
+    }
+
+    @GetMapping("/verify")
+    public String verify(@RequestParam String token, Model model) {
+        model.addAttribute("isVerified", secureTokenService.verifyToken(token));
+        return "user/verify";
     }
 
     /**
@@ -94,17 +104,18 @@ public class AuthorizationController {
         return "redirect:/home";
     }
 
-//    @PostMapping("/login")
-//    public String login(@AuthenticationPrincipal User user,
-//                        HttpServletResponse response) {
-//        Cookie cookie = new Cookie(CookieAuthenticationFilter.COOKIE_NAME,
-//                authenticationService.generateToken(user));
-//        cookie.setHttpOnly(true);
-//        cookie.setSecure(true);
-//        cookie.setMaxAge(Duration.of(1, ChronoUnit.DAYS).toSecondsPart());
-//        cookie.setPath("/");
-//
-//        response.addCookie(cookie);
-//        return "redirect:/home";
-//    }
+    /**
+     * @PostMapping("/login")
+     *     public String login(@AuthenticationPrincipal User user,
+     *                         HttpServletResponse response) {
+     *         Cookie cookie = new Cookie(CookieAuthenticationFilter.COOKIE_NAME,
+     *                 authenticationService.generateToken(user));
+     *         cookie.setHttpOnly(true);
+     *         cookie.setSecure(true);
+     *         cookie.setMaxAge(Duration.of(1, ChronoUnit.DAYS).toSecondsPart());
+     *         cookie.setPath("/");
+     *         response.addCookie(cookie);
+     *         return "redirect:/home";
+     *     }
+     */
 }

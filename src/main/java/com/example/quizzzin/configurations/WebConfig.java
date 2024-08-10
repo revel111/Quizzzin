@@ -2,7 +2,10 @@ package com.example.quizzzin.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 /**
  * The {@code WebConfig} class is a Spring configuration class responsible for defining beans related to
@@ -28,5 +31,10 @@ public class WebConfig {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public JavaMailSender mailSender() {
+        return new JavaMailSenderImpl();
     }
 }

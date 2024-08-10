@@ -15,6 +15,15 @@ spring:
     init:
       mode: never
       data-locations: classpath:static/sql/necessary_data.sql, classpath:static/sql/dummy/*.sql
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: quizzzin@gmail.com
+    password: idk
 server:
   servlet:
     context-path: /quizzzin
+secure:
+  token:
+    validity: 3600
+    key: "Encoded"

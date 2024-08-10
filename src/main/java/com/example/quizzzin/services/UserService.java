@@ -40,12 +40,16 @@ public class UserService {
      * @param registerUserDTO The data transfer object containing registration details.
      * @return The saved User entity.
      */
-    public User saveUser(RegisterUserDTO registerUserDTO) {
+    public User registerUser(RegisterUserDTO registerUserDTO) {
         User user = userMapper.toUser(registerUserDTO);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.getAuthoritiesList().add(authorityService.findByName(AuthorityType.USER));
 
+        return saveUser(user);
+    }
+
+    public User saveUser(User user) {
         return userRepository.save(user);
     }
 
@@ -95,5 +99,9 @@ public class UserService {
      */
     public Optional<User> findUserByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public void forgotPassword(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
     }
 }
