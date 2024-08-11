@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
@@ -17,6 +18,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
  * </p>
  */
 @Configuration
+@EnableScheduling
 public class WebConfig {
 
     /**

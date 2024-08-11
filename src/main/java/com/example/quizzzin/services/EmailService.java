@@ -33,7 +33,6 @@ public class EmailService {
 
         String url = UriComponentsBuilder.fromHttpUrl(siteBaseUrl + servletContext.getContextPath())
                 .path("/verify").queryParam("token", secureToken.getToken()).toUriString();
-        System.out.println(url);
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText("Email with the link: " + url);

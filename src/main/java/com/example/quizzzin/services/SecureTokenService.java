@@ -7,11 +7,14 @@ import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +25,6 @@ public class SecureTokenService {
     @Value("${secure.token.validity}")
     private int tokenValidityInSeconds;
 
-    @Value("${secure.token.key}")
-    private String key;
-
     public SecureToken save(SecureToken secureToken) {
         return secureTokenRepository.save(secureToken);
     }
@@ -34,8 +34,12 @@ public class SecureTokenService {
     }
 
     @Transactional
-    public Long deleteByToken(String token) {
-        return secureTokenRepository.deleteByToken(token);
+    public void deleteByToken(SecureToken token) {
+        secureTokenRepository.delete(token);
+    }
+
+    private List<SecureToken> findByDateOfExpirationBefore(LocalDateTime localDateTime) {
+        return secureTokenRepository.findByDateOfExpirationBefore(LocalDateTime.now());
     }
 
     @Transactional
@@ -49,17 +53,21 @@ public class SecureTokenService {
             user.setAccountVerified(true);
 
             userService.saveUser(user);
-            deleteByToken(token);
+            deleteByToken(secureToken.get());
         }
 
         return isVerified;
     }
 
     public SecureToken generateAndSaveSecureToken(User user) {
-        String token = new String(Base64.getEncoder().encode(key.getBytes()));
+        String token = UUID.randomUUID().toString();
         LocalDateTime expiration = LocalDateTime.now().plusMinutes(tokenValidityInSeconds);
 
         return save(new SecureToken(token, expiration, user));
     }
 
+    @Scheduled(fixedDelayString = "${secure.token.validity}") //delete expired tokens once per configured time
+    protected void checkAndHandleExpiredTokens() {
+        findByDateOfExpirationBefore(LocalDateTime.now()).forEach(this::deleteByToken);
+    }
 }
