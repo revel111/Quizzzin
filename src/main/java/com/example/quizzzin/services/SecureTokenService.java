@@ -1,5 +1,6 @@
 package com.example.quizzzin.services;
 
+import com.example.quizzzin.models.dto.other.PasswordRecoveringDTO;
 import com.example.quizzzin.models.entities.SecureToken;
 import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.repositories.SecureTokenRepository;
@@ -38,8 +39,13 @@ public class SecureTokenService {
         secureTokenRepository.delete(token);
     }
 
+    @Transactional
+    public Long deleteByToken(String token) {
+        return secureTokenRepository.deleteByToken(token);
+    }
+
     private List<SecureToken> findByDateOfExpirationBefore(LocalDateTime localDateTime) {
-        return secureTokenRepository.findByDateOfExpirationBefore(LocalDateTime.now());
+        return secureTokenRepository.findByDateOfExpirationBefore(localDateTime);
     }
 
     @Transactional
@@ -66,7 +72,17 @@ public class SecureTokenService {
         return save(new SecureToken(token, expiration, user));
     }
 
-    @Scheduled(fixedDelayString = "${secure.token.validity}") //delete expired tokens once per configured time
+    @Transactional
+    public User changePassword(PasswordRecoveringDTO passwordRecoveringDTO) {
+        User user = userService.changePassword(
+                findByToken(passwordRecoveringDTO.getToken()).get().getUser(), passwordRecoveringDTO.getPassword());
+
+        deleteByToken(passwordRecoveringDTO.getToken());
+
+        return user;
+    }
+
+    @Scheduled(fixedDelayString = "${secure.token.validity}") //delete expired tokens once per configured time.
     protected void checkAndHandleExpiredTokens() {
         findByDateOfExpirationBefore(LocalDateTime.now()).forEach(this::deleteByToken);
     }

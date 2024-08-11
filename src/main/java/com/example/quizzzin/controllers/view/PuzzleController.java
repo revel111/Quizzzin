@@ -53,7 +53,8 @@ public class PuzzleController {
      * @return the name of the view to be rendered (i.e., "puzzles/puzzle-view")
      */
     @GetMapping("/{id}")
-    public String getPuzzle(Model model, @PathVariable long id) {
+    public String getPuzzle(Model model,
+                            @PathVariable long id) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
 
         if (abstractPuzzle.isEmpty())

@@ -28,11 +28,13 @@ public class EmailService {
     @Value("${site.base.url}")
     private String siteBaseUrl;
 
-    public void sendEmail(User user) {
+    // ! This method is being user for every single case with sending message,
+    // ! cause further there will be distinct methods with it's html parsed files.
+    public void sendEmail(User user, String urlPath) {
         SecureToken secureToken = secureTokenService.generateAndSaveSecureToken(user);
 
         String url = UriComponentsBuilder.fromHttpUrl(siteBaseUrl + servletContext.getContextPath())
-                .path("/verify").queryParam("token", secureToken.getToken()).toUriString();
+                .path(urlPath).queryParam("token", secureToken.getToken()).toUriString();
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setText("Email with the link: " + url);

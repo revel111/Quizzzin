@@ -101,7 +101,8 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public void forgotPassword(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
+    public User changePassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        return saveUser(user);
     }
 }

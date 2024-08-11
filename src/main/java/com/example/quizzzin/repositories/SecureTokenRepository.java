@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface SecureTokenRepository extends CrudRepository<SecureToken, Long> {
     Optional<SecureToken> findByToken(String token);
 
-//    Long deleteByToken(String token);
+    Long deleteByToken(String token);
 
     List<SecureToken> findByDateOfExpirationBefore(LocalDateTime dateOfExpiration);
 }

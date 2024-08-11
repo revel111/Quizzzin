@@ -1,7 +1,6 @@
 package com.example.quizzzin.controllers.view;
 
 import com.example.quizzzin.models.dto.other.RegisterUserDTO;
-import com.example.quizzzin.models.entities.SecureToken;
 import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.services.EmailService;
 import com.example.quizzzin.services.SecureTokenService;
@@ -79,17 +78,17 @@ public class AuthorizationController {
         User user = userService.registerUser(registerUserDTO);
         log.info("User was added: {}", user);
 
-        emailService.sendEmail(user);
+        emailService.sendEmail(user, "/verify-account");
         log.info("Email was sent to: {}", user.getEmail());
 
         return "redirect:/login";
     }
 
-    @GetMapping("/verify")
+    @GetMapping("/verify-account")
     public String verify(@RequestParam String token,
                          Model model) {
         model.addAttribute("isVerified", secureTokenService.verifyToken(token));
-        return "user/verify";
+        return "user/verify-account";
     }
 
     /**
