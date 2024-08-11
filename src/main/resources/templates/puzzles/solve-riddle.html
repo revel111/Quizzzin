@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{boilerplates/layouts/solving-layout}">
 <head>
     <title th:text="${solveRiddleDTO.title}"></title>
     <link th:href="@{/css/solve-riddle.css}" rel="stylesheet">
     <link th:href="@{/css/solve.css}" rel="stylesheet">
+    <th:block th:replace="~{boilerplates/fragments/global-fragments :: bootstrap}"></th:block>
 </head>
 <body>
 <main layout:fragment="content">

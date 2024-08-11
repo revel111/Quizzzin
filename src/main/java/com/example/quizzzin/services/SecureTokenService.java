@@ -3,6 +3,7 @@ package com.example.quizzzin.services;
 import com.example.quizzzin.models.entities.SecureToken;
 import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.repositories.SecureTokenRepository;
+import jakarta.transaction.Transactional;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,10 +16,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class SecureTokenService {
-    @NonNull
-    private SecureTokenRepository secureTokenRepository;
-    @NonNull
-    private UserService userService;
+    private final SecureTokenRepository secureTokenRepository;
+    private final UserService userService;
 
     @Value("${secure.token.validity}")
     private int tokenValidityInSeconds;
@@ -34,10 +33,12 @@ public class SecureTokenService {
         return secureTokenRepository.findByToken(token);
     }
 
+    @Transactional
     public Long deleteByToken(String token) {
         return secureTokenRepository.deleteByToken(token);
     }
 
+    @Transactional
     public boolean verifyToken(String token) {
         Optional<SecureToken> secureToken = findByToken(token);
 

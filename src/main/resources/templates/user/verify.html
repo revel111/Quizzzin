@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{boilerplates/layouts/layout}">
 <head>
@@ -7,11 +8,11 @@
 </head>
 <body>
 <main layout:fragment="content">
-    <div th:if="isVerified">
+    <div th:if="${isVerified}">
         <h1>Success! Now you can login into your account.</h1>
         <a th:href="@{/login}">Login</a>
     </div>
-    <div th:unless="isVerified">
+    <div th:unless="${isVerified}">
         <h1>Incorrect token.</h1>
         <a th:href="@{/home}">Go to the main page.</a>
     </div>

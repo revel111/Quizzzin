@@ -32,9 +32,4 @@ public class WebConfig {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-
-    @Bean
-    public JavaMailSender mailSender() {
-        return new JavaMailSenderImpl();
-    }
 }

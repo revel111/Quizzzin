@@ -3,6 +3,7 @@ package com.example.quizzzin.controllers.view;
 import com.example.quizzzin.models.dto.other.RegisterUserDTO;
 import com.example.quizzzin.models.entities.SecureToken;
 import com.example.quizzzin.models.entities.User;
+import com.example.quizzzin.services.EmailService;
 import com.example.quizzzin.services.SecureTokenService;
 import com.example.quizzzin.services.UserService;
 import jakarta.validation.Valid;
@@ -33,6 +34,7 @@ import java.util.Optional;
 public class AuthorizationController {
     private final UserService userService;
     private final SecureTokenService secureTokenService;
+    private final EmailService emailService;
     //private final AuthenticationService authenticationService;
 
     /**
@@ -77,11 +79,15 @@ public class AuthorizationController {
         User user = userService.registerUser(registerUserDTO);
         log.info("User was added: {}", user);
 
+        emailService.sendEmail(user);
+        log.info("Email was sent to: {}", user.getEmail());
+
         return "redirect:/login";
     }
 
     @GetMapping("/verify")
-    public String verify(@RequestParam String token, Model model) {
+    public String verify(@RequestParam String token,
+                         Model model) {
         model.addAttribute("isVerified", secureTokenService.verifyToken(token));
         return "user/verify";
     }

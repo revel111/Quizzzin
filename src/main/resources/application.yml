@@ -1,29 +1,34 @@
 spring:
   application:
     name: Quizzzin
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  config:
+    import: classpath:properties/properties.yml
   datasource:
     url: jdbc:postgresql://localhost:5432/Quizzzin
     username: postgres
     password: 1234
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     defer-datasource-initialization: true
   sql:
     init:
-      mode: never
+      mode: always
       data-locations: classpath:static/sql/necessary_data.sql, classpath:static/sql/dummy/*.sql
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: quizzzin@gmail.com
-    password: idk
 server:
   servlet:
     context-path: /quizzzin
-secure:
-  token:
-    validity: 3600
-    key: "Encoded"
+site:
+  base:
+    url: "http://localhost:8080"

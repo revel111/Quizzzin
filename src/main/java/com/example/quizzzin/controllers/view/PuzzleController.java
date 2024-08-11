@@ -1,24 +1,24 @@
 package com.example.quizzzin.controllers.view;
 
-import java.util.HashMap;
-import java.util.Optional;
-
 import com.example.quizzzin.models.dto.other.RatePuzzleDTO;
+import com.example.quizzzin.models.dto.puzzles.get.FeedViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.dto.puzzles.solve.SolveRiddleDTO;
 import com.example.quizzzin.models.dto.puzzles.solve.SolveWordleDTO;
-import com.example.quizzzin.models.entities.*;
+import com.example.quizzzin.models.entities.AbstractPuzzle;
+import com.example.quizzzin.models.entities.Riddle;
+import com.example.quizzzin.models.entities.User;
+import com.example.quizzzin.models.entities.Wordle;
 import com.example.quizzzin.services.*;
 import com.example.quizzzin.utilities.TypeDefiner;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.quizzzin.models.dto.puzzles.get.FeedViewAbstractPuzzleDTO;
-
-import lombok.AllArgsConstructor;
+import java.util.HashMap;
+import java.util.Optional;
 
 /**
  * The {@code PuzzleController} class handles HTTP requests related to puzzles in the application.
@@ -146,7 +146,9 @@ public class PuzzleController {
             case "Riddle" -> {
                 Riddle riddle = (Riddle) abstractPuzzle.get();
                 SolveRiddleDTO riddleDTO = riddleService.toSolveRiddleDTO(riddle);
+
                 model.addAttribute("solveRiddleDTO", riddleDTO);
+
                 return "puzzles/solve-riddle";
             }
             case "Wordle" -> {
@@ -158,6 +160,7 @@ public class PuzzleController {
                     return "redirect:home"; // TODO Redirect to some page with explanation why user can't solve a wordle.
 
                 model.addAttribute("solveWordleDTO", solveWordleDTO);
+
                 return "puzzles/solve-wordle";
             }
         }
