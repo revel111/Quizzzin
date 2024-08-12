@@ -22,7 +22,9 @@
                 Enter password
                 <br>
 
-                <input type="password" name="password" placeholder="Enter the password"/>
+                <input type="password" name="password" id="showInput" placeholder="Enter the password"/>
+                <br>
+                <input type="checkbox" onclick="showPassword('showInput')"> Show password
                 <br>
 
                 <a th:href="@{/forgot-password}">Forgot password?</a>
@@ -31,10 +33,7 @@
             <br>
 
             <label>
-                Remember me
-                <br>
-
-                <input type="checkbox" id="remember" name="remember-me">
+                <input type="checkbox" id="remember" name="remember-me"> Remember me
             </label>
             <br>
             <button type="submit">Login</button>
@@ -44,6 +43,8 @@
     <div>
         <a th:href="@{/register}">I don't have an account</a>
     </div>
+
+    <script type="text/javascript" th:src="@{/js/show-password.js}" defer></script>
 </main>
 </body>
 </html>

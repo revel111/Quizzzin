@@ -29,7 +29,7 @@
             <label>
                 Choose date of birth
                 <br>
-                <input type="date" th:field="*{dateOfBirth}" min="1900-01-01" max="2019-01-01"/>
+                <input type="date" th:field="*{dateOfBirth}" min="1900-01-01" th:max="${maxDate}"/>
                 <p th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}" class="error"></p>
             </label>
             <br>

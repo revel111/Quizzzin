@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Optional;
 
 /**
@@ -48,7 +51,13 @@ public class AuthorizationController {
      */
     @GetMapping("/register")
     public String register(Model model) {
-        model.addAttribute("userDTO", new RegisterUserDTO());
+//        model.addAttribute("userDTO", new RegisterUserDTO());
+        model.addAllAttributes(new HashMap<>() {
+            {
+                put("userDTO", new RegisterUserDTO());
+                put("maxDate", LocalDate.now().minusYears(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+            }
+        });
         return "user/register";
     }
 

@@ -3,6 +3,7 @@ package com.example.quizzzin.models.entities;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -61,6 +62,7 @@ public class User implements UserDetails {
      * This field is formatted as an ISO date.
      */
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Past
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
@@ -129,8 +131,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private Set<Comment> comments;
 
-    @OneToMany(mappedBy = "user")
-    private Set<SecureToken> tokens;
+//    @OneToMany(mappedBy = "user")
+//    private Set<SecureToken> tokens;
 
     @Column(name = "is_verified")
     private boolean accountVerified;
