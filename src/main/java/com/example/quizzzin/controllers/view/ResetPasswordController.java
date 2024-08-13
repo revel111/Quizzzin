@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -47,7 +48,13 @@ public class ResetPasswordController {
         if (bindingResult.hasErrors())
             return "user/forgot-password";
 
-        emailService.sendEmail(user.get(), "/forgot-password/verify");
+        Map<String, Object> model = new HashMap<>() {
+            {
+                put("title", "Password recovering");
+            }
+        };
+        emailService.sendEmail(user.get(), "/forgot-password/verify",
+                "Password recovering", "emails/password-recovering", model);
         log.info("Email was sent to: {}", emailDto.getEmail());
 
         return "redirect:/login";

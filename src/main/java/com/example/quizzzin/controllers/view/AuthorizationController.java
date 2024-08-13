@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -51,7 +52,6 @@ public class AuthorizationController {
      */
     @GetMapping("/register")
     public String register(Model model) {
-//        model.addAttribute("userDTO", new RegisterUserDTO());
         model.addAllAttributes(new HashMap<>() {
             {
                 put("userDTO", new RegisterUserDTO());
@@ -87,7 +87,13 @@ public class AuthorizationController {
         User user = userService.registerUser(registerUserDTO);
         log.info("User was added: {}", user);
 
-        emailService.sendEmail(user, "/verify-account");
+        Map<String, Object> model = new HashMap<>() {
+            {
+                put("title", "Account verification");
+            }
+        };
+        emailService.sendEmail(user, "/verify-account",
+                "Account verification", "emails/email-verification", model);
         log.info("Email was sent to: {}", user.getEmail());
 
         return "redirect:/login";
