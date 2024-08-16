@@ -5,14 +5,12 @@ import com.example.quizzzin.models.entities.SecureToken;
 import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.repositories.SecureTokenRepository;
 import jakarta.transaction.Transactional;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -24,7 +22,7 @@ public class SecureTokenService {
     private final UserService userService;
 
     @Value("${secure.token.validity}")
-    private int tokenValidityInSeconds;
+    private int tokenValidityInMilliseconds;
 
     public SecureToken save(SecureToken secureToken) {
         return secureTokenRepository.save(secureToken);
@@ -67,7 +65,7 @@ public class SecureTokenService {
 
     public SecureToken generateAndSaveSecureToken(User user) {
         String token = UUID.randomUUID().toString();
-        LocalDateTime expiration = LocalDateTime.now().plusMinutes(tokenValidityInSeconds);
+        LocalDateTime expiration = LocalDateTime.now().plusSeconds(tokenValidityInMilliseconds / 1000);
 
         return save(new SecureToken(token, expiration, user));
     }
@@ -83,7 +81,14 @@ public class SecureTokenService {
     }
 
     @Scheduled(fixedDelayString = "${secure.token.validity}") //delete expired tokens once per configured time.
-    protected void checkAndHandleExpiredTokens() {
-        findByDateOfExpirationBefore(LocalDateTime.now()).forEach(this::deleteByToken);
+    @Transactional
+    public void checkAndHandleExpiredTokens() {
+        findByDateOfExpirationBefore(LocalDateTime.now()).stream()
+                .peek(secureToken -> {
+                    User user = secureToken.getUser();
+                    if (!user.isEnabled())
+                        userService.deleteUser(user);
+                })
+                .forEach(this::deleteByToken);
     }
 }

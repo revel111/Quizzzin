@@ -9,7 +9,6 @@ import com.example.quizzzin.models.entities.Riddle;
 import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.models.entities.Wordle;
 import com.example.quizzzin.services.*;
-import com.example.quizzzin.utilities.TypeDefiner;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -38,7 +37,6 @@ public class PuzzleController {
     private final RiddleService riddleService;
     private final WordleService wordleService;
     private final UserPuzzleScoreService userPuzzleScoreService;
-    private final TypeDefiner typeDefiner;
 
     /**
      * Handles the HTTP GET request to view a specific puzzle.
@@ -143,17 +141,15 @@ public class PuzzleController {
             }
         });
 
-        switch (typeDefiner.defineType(abstractPuzzle.get())) {
-            case "Riddle" -> {
-                Riddle riddle = (Riddle) abstractPuzzle.get();
+        switch (abstractPuzzle.get()) {
+            case Riddle riddle -> {
                 SolveRiddleDTO riddleDTO = riddleService.toSolveRiddleDTO(riddle);
 
                 model.addAttribute("solveRiddleDTO", riddleDTO);
 
                 return "puzzles/solve-riddle";
             }
-            case "Wordle" -> {
-                Wordle wordle = (Wordle) abstractPuzzle.get();
+            case Wordle wordle -> {
                 SolveWordleDTO solveWordleDTO = wordleService.toSolveWordleDTO(wordle);
 
                 // ! Checking whether the API works
@@ -164,9 +160,8 @@ public class PuzzleController {
 
                 return "puzzles/solve-wordle";
             }
+            default -> throw new IllegalStateException("Unexpected value: " + abstractPuzzle.get());
         }
-
-        return "puzzles/solve-riddle"; // TODO return 404
     }
 
     /**

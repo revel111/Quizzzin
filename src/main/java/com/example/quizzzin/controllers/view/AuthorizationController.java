@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -52,13 +53,19 @@ public class AuthorizationController {
      */
     @GetMapping("/register")
     public String register(Model model) {
-        model.addAllAttributes(new HashMap<>() {
-            {
-                put("userDTO", new RegisterUserDTO());
-                put("maxDate", LocalDate.now().minusYears(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
-            }
-        });
-        return "user/register";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+            model.addAllAttributes(new HashMap<>() {
+                {
+                    put("userDTO", new RegisterUserDTO());
+                    put("maxDate", LocalDate.now().minusYears(4).format(DateTimeFormatter.ofPattern("yyyy-MM-dd")));
+                }
+            });
+            return "user/register";
+        }
+
+        return "redirect:/home";
     }
 
     /**
@@ -75,11 +82,16 @@ public class AuthorizationController {
      */
     @PostMapping("/register")
     public String register(@Valid @ModelAttribute("userDTO") RegisterUserDTO registerUserDTO,
-                           BindingResult bindingResult) {
+                           BindingResult bindingResult,
+                           RedirectAttributes attributes) {
         Optional<User> optionalUser = userService.findUserByEmail(registerUserDTO.getEmail());
 
         if (optionalUser.isPresent())
             bindingResult.rejectValue("email", "email.exists", "Email is already in use");
+
+        if (!registerUserDTO.getPassword()
+                .equals(registerUserDTO.getConfirmationPassword()))
+            bindingResult.rejectValue("password", "passwords.different", "Passwords don't match");
 
         if (bindingResult.hasErrors())
             return "user/register";
@@ -87,16 +99,20 @@ public class AuthorizationController {
         User user = userService.registerUser(registerUserDTO);
         log.info("User was added: {}", user);
 
-        Map<String, Object> model = new HashMap<>() {
-            {
-                put("title", "Account verification");
-            }
-        };
-        emailService.sendEmail(user, "/verify-account",
-                "Account verification", "emails/email-verification", model);
-        log.info("Email was sent to: {}", user.getEmail());
+        return sendVerificationMail(user, attributes);
+    }
 
-        return "redirect:/login";
+    @PostMapping("/resend-verification-email")
+    public String resendEmail(@RequestParam String email,
+                              RedirectAttributes attributes) {
+        Optional<User> optionalUser = userService.findUserByEmail(email);
+
+        if (optionalUser.isEmpty()) {
+            attributes.addFlashAttribute("errorMessage", "No user found with this email.");
+            return "redirect:/register";
+        }
+
+        return sendVerificationMail(optionalUser.get(), attributes);
     }
 
     @GetMapping("/verify-account")
@@ -124,18 +140,20 @@ public class AuthorizationController {
         return "redirect:/home";
     }
 
-    /**
-     * @PostMapping("/login")
-     *     public String login(@AuthenticationPrincipal User user,
-     *                         HttpServletResponse response) {
-     *         Cookie cookie = new Cookie(CookieAuthenticationFilter.COOKIE_NAME,
-     *                 authenticationService.generateToken(user));
-     *         cookie.setHttpOnly(true);
-     *         cookie.setSecure(true);
-     *         cookie.setMaxAge(Duration.of(1, ChronoUnit.DAYS).toSecondsPart());
-     *         cookie.setPath("/");
-     *         response.addCookie(cookie);
-     *         return "redirect:/home";
-     *     }
-     */
+    private String sendVerificationMail(User user,
+                                        RedirectAttributes attributes) {
+        Map<String, Object> model = new HashMap<>() {
+            {
+                put("title", "Account verification");
+            }
+        };
+        emailService.sendEmail(user, "/verify-account",
+                "Account verification", "emails/email-verification", model);
+        log.info("Email was sent to: {}", user.getEmail());
+
+        attributes.addFlashAttribute("message", "The email was sent.");
+        attributes.addFlashAttribute("email", user.getEmail());
+
+        return "redirect:/register";
+    }
 }

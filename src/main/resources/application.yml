@@ -29,6 +29,9 @@ spring:
 server:
   servlet:
     context-path: /quizzzin
+  error:
+    whitelabel:
+      enabled: true
 site:
   base:
     url: "http://localhost:8080"

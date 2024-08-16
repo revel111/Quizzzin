@@ -1,4 +1,4 @@
-package com.example.quizzzin.controllers.view;
+package com.example.quizzzin.controllers.advice;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.ControllerAdvice;

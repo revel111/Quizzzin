@@ -1,11 +1,14 @@
 package com.example.quizzzin.configurations;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 /**
@@ -19,7 +22,9 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
  */
 @Configuration
 @EnableScheduling
-public class WebConfig {
+public class WebConfig/* implements WebMvcConfigurer*/ {
+//    @Value("${site.base.url}")
+//    private String siteBaseUrl;
 
     /**
      * Creates and configures a {@link RestTemplate} bean.
@@ -34,4 +39,11 @@ public class WebConfig {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
+//    @Override
+//    public void addCorsMappings(CorsRegistry registry) {
+//        registry.addMapping("/api/**")
+//                .allowedOrigins("http://localhost:8080/quizzin")
+//                .allowedMethods("GET", "PUT", "POST", "DELETE");
+//    }
 }

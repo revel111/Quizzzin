@@ -8,6 +8,24 @@
 </head>
 <body>
 <main layout:fragment="content">
+    <div th:if="${message}">
+        <p th:text="${message}"></p>
+        <p id="timer">If you haven't received an email, you can resend it in 30 seconds</p>
+
+        <form th:action="@{/resend-verification-email}" id="resend" style="display: none;" method="post">
+            <input type="hidden" name="email" th:value="${email}"/>
+            <button type="submit">Resend Verification Email</button>
+        </form>
+
+        <script type="text/javascript" th:src="@{/js/resend-timer.js}" defer></script>
+        <script th:inline="javascript">
+            window.onload = function () {
+                startTimer(30);
+            };
+        </script>
+        <br>
+    </div>
+
     <div>
         <form method="post" th:action="@{/register}" th:object="${userDTO}">
             <label>
@@ -54,10 +72,21 @@
             <label>
                 Enter password
                 <br>
-                <input type="password" th:field="*{password}" id="showInput" placeholder="Enter the password"/>
+                <input type="password" th:field="*{password}" id="showInput1" placeholder="Enter the password"/>
                 <br>
                 <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></p>
-                <input type="checkbox" onclick="showPassword('showInput')"> Show password
+                <input type="checkbox" onclick="showPassword('showInput1')"> Show password
+                <br>
+            </label>
+            <br>
+
+            <label>
+                Confirm password
+                <br>
+                <input type="password" th:field="*{confirmationPassword}" id="showInput2" placeholder="Confirm the password"/>
+                <br>
+                <p th:if="${#fields.hasErrors('confirmationPassword')}" th:errors="*{confirmationPassword}" class="error"></p>
+                <input type="checkbox" onclick="showPassword('showInput2')"> Show password
                 <br>
             </label>
             <br>

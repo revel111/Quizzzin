@@ -53,6 +53,10 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public void deleteUser(User user) {
+        userRepository.delete(user);
+    }
+
     /**
      * Retrieves the currently authenticated user from the security context.
      *
