@@ -19,15 +19,19 @@
 
     <div th:replace="~{boilerplates/fragments/solve-fragments :: successful (abstractSolve = ${solveWordleDTO})}"></div>
     <div th:replace="~{boilerplates/fragments/solve-fragments :: score-panel}"></div>
+    <div th:replace="~{boilerplates/fragments/solve-fragments :: solve-timer}"></div>
+
+    <script type="text/javascript" th:src="@{/js/solve-wordle.js}" defer></script>
+    <script type="text/javascript" th:src="@{/js/successful-solve-process.js}" defer></script>
+    <script type="text/javascript" th:src="@{/js/solve-puzzle-timer.js}"></script>
 
     <script th:inline="javascript">
         let colNum = [[${solveWordleDTO.answer.length()}]];
         let answer = [[${solveWordleDTO.answer.toLowerCase()}]];
         let idUser = [[${userID}]];
         let idPuzzle = [[${puzzleID}]];
+        window.onload = startSolvingTimer;
     </script>
-    <script type="text/javascript" th:src="@{/js/solve-wordle.js}" defer></script>
-    <script type="text/javascript" th:src="@{/js/successful-solve-process.js}" defer></script>
 </main>
 </body>
 </html>

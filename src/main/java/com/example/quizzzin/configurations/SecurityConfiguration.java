@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -13,8 +14,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.intercept.RequestAuthorizationContext;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.authorization.AuthorityAuthorizationManager;
 
 import javax.sql.DataSource;
 
@@ -34,7 +37,6 @@ import static com.example.quizzzin.enums.AuthorityType.*;
 @AllArgsConstructor
 public class SecurityConfiguration {
     //    private final UserAuthenticationEntryPoint userAuthenticationEntryPoint;
-
     private final DataSource dataSource;
 
     /**
@@ -60,7 +62,7 @@ public class SecurityConfiguration {
      * session management.
      * </p>
      *
-     * @param http               the {@link HttpSecurity} object for configuring HTTP security
+     * @param http the {@link HttpSecurity} object for configuring HTTP security
      * @return the {@link SecurityFilterChain} instance with the configured security settings
      * @throws Exception if an error occurs during configuration
      */
@@ -71,9 +73,19 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/admin/**").hasAuthority(ADMIN.name())
-                        .requestMatchers("/puzzles/solve").authenticated() // TODO same as for rating
-                        .requestMatchers("/puzzles/*/rate").authenticated() //TODO add filter for checking whether it was rated
+                        .requestMatchers("/puzzles/*/solve").authenticated()
+                        .requestMatchers("/puzzles/*/rate").authenticated()
                         .requestMatchers("/account").authenticated()
+                        .requestMatchers("/moderator/**")
+                        .access(((authentication, object) -> {
+                            if (authentication.get().isAuthenticated())
+                                return new AuthorizationDecision(
+                                        authentication.get().getAuthorities().stream()
+                                                .noneMatch(a ->
+                                                        a.getAuthority().equals(ADMIN.name()) || a.getAuthority().equals(MODERATOR.name()))
+                                );
+                            return new AuthorizationDecision(false);
+                        }))
                         .anyRequest().permitAll()
                 )
 //                .rememberMe(x -> x.userDetailsService(userDetailsService))

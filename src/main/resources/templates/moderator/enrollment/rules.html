@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{boilerplates/layouts/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Rules</title>
+</head>
+<body>
+<main layout:fragment="content">
+    <div>
+        Here will be some rules
+    </div>
+
+    <form method="post" th:action="@{/moderators/rules}" th:object="${moderatorDTO}">
+        <label>
+            <input type="checkbox" th:field="*{agreed}"> I agree
+            <p th:if="${#fields.hasErrors('agreed')}" th:errors="*{agreed}"></p>
+        </label>
+        <br>
+
+        <button type="submit">Next</button>
+    </form>
+</main>
+</body>
+</html>

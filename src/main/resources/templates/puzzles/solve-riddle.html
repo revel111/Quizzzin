@@ -7,7 +7,6 @@
     <title th:text="${solveRiddleDTO.title}"></title>
     <link th:href="@{/css/solve-riddle.css}" rel="stylesheet">
     <link th:href="@{/css/solve.css}" rel="stylesheet">
-    <th:block th:replace="~{boilerplates/fragments/global-fragments :: bootstrap}"></th:block>
 </head>
 <body>
 <main layout:fragment="content">
@@ -24,8 +23,8 @@
 
         <div th:replace="~{boilerplates/fragments/solve-fragments :: successful (abstractSolve = ${solveRiddleDTO})}"></div>
         <div th:replace="~{boilerplates/fragments/solve-fragments :: score-panel}"></div>
+        <div th:replace="~{boilerplates/fragments/solve-fragments :: solve-timer}"></div>
 
-        <!-- Another example of a popup -->
         <div id="failurePopup" class="popup">
             <div class="popup-content">
                 <span class="close">&times;</span>
@@ -42,14 +41,17 @@
             </div>
         </div>
     </div>
+
+    <script type="text/javascript" th:src="@{/js/solve-riddle.js}" defer></script>
+    <script type="text/javascript" th:src="@{/js/successful-solve-process.js}" defer></script>
+    <script type="text/javascript" th:src="@{/js/solve-puzzle-timer.js}"></script>
+
     <script th:inline="javascript">
         let rightAnswer = [[${solveRiddleDTO.answer}]];
         let idUser = [[${userID}]];
         let idPuzzle = [[${puzzleID}]];
+        window.onload = startSolvingTimer;
     </script>
-
-    <script type="text/javascript" th:src="@{/js/solve-riddle.js}" defer></script>
-    <script type="text/javascript" th:src="@{/js/successful-solve-process.js}" defer></script>
 </main>
 </body>
 </html>

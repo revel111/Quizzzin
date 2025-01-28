@@ -10,14 +10,18 @@ import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.models.entities.Wordle;
 import com.example.quizzzin.services.*;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Optional;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 /**
  * The {@code PuzzleController} class handles HTTP requests related to puzzles in the application.
@@ -29,6 +33,7 @@ import java.util.Optional;
  */
 @Controller
 @RequestMapping("/puzzles")
+@Slf4j
 @AllArgsConstructor
 public class PuzzleController {
     private final AbstractPuzzleService abstractPuzzleService;
@@ -56,7 +61,7 @@ public class PuzzleController {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
 
         if (abstractPuzzle.isEmpty())
-            return "home";
+            return "redirect:/home";
 
         Long userId = userService.getAuthenticatedUserId();
 
@@ -125,19 +130,24 @@ public class PuzzleController {
      * @param id    the ID of the puzzle to be solved
      * @return the name of the view to be rendered (i.e., "puzzles/solve-riddle" or "puzzles/solve-wordle")
      */
-    @GetMapping("/solve")
+    @GetMapping("/{id}/solve")
     public String solveRiddle(@AuthenticationPrincipal User user,
                               Model model,
-                              @RequestParam(name = "id") long id) {
+                              @PathVariable long id) {
         Optional<AbstractPuzzle> abstractPuzzle = abstractPuzzleService.findAbstractPuzzleById(id);
 
         if (abstractPuzzle.isEmpty())
-            return "home"; // TODO return 404
+            throw new ResponseStatusException(NOT_FOUND, "Unable to find resource");
+
+        long userId = user.getId();
+
+        if (userPuzzleScoreService.findByPuzzleIdAndUserId(id, userId).isPresent())
+            return "redirect:/home";
 
         model.addAllAttributes(new HashMap<>() {
             {
                 put("puzzleID", id);
-                put("userID", user.getId());
+                put("userID", userId);
             }
         });
 
@@ -154,7 +164,7 @@ public class PuzzleController {
 
                 // ! Checking whether the API works
                 if (!wordleService.checkWordInAPIDictionary("word"))
-                    return "redirect:home"; // TODO Redirect to some page with explanation why user can't solve a wordle.
+                    return "redirect:/home"; // TODO Redirect to some page with explanation why user can't solve a wordle.
 
                 model.addAttribute("solveWordleDTO", solveWordleDTO);
 
@@ -178,6 +188,8 @@ public class PuzzleController {
     public String rateRiddle(@PathVariable long id,
                              @RequestParam("rating") int rating) {
         userPuzzleRatingService.save(new RatePuzzleDTO(id, rating));
+        log.info("Rating for puzzle with puzzle id {} and user id {} was saved", id, rating);
+
         return "redirect:/home";
     }
 }

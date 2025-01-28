@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * </p>
  */
 @Controller
-@RequestMapping("/home")
 @AllArgsConstructor
 public class HomeController {
     private final UserPuzzleScoreService userPuzzleScoreService;
@@ -30,9 +29,14 @@ public class HomeController {
      * @param model the {@link Model} object used to pass data to the view
      * @return the name of the view to be rendered (i.e., "home")
      */
-    @GetMapping
+    @GetMapping("/home")
     public String getHome(Model model) {
         model.addAttribute("leaderboard", userPuzzleScoreService.getGlobalLeaderBoard());
         return "home";
+    }
+
+    @GetMapping("/")
+    public String getHome() {
+        return "redirect:/home";
     }
 }

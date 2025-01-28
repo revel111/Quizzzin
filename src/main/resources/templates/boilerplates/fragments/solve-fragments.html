@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Solve fragments</title>
     <link th:href="@{/css/solve.css}" rel="stylesheet">
 </head>
 <body>
@@ -24,6 +25,12 @@
     <div class="popup-content">
         <p id="score"></p>
         <button type="button" id="confirmBtn">Okay</button>
+    </div>
+</div>
+
+<div th:fragment="solve-timer">
+    <div id="display">
+        00:00:00
     </div>
 </div>
 </body>

@@ -7,7 +7,6 @@
 <head>
     <title th:text="${abstractPuzzleDTO.title}"></title>
     <link th:href="@{/css/solve.css}" rel="stylesheet">
-    <th:block th:replace="~{boilerplates/fragments/global-fragments :: bootstrap}"></th:block>
 </head>
 <body>
 <main layout:fragment="content">
@@ -35,7 +34,7 @@
             <p th:text="|You have already solved this ${abstractPuzzleDTO.type}|"></p>
         </div>
         <div th:unless="${isSolved}">
-            <a th:href="@{/puzzles/solve(id=${puzzleID})}">
+            <a th:href="@{'/puzzles/' + ${puzzleID} + '/solve'}">
                 <button>Solve</button>
             </a>
         </div>
