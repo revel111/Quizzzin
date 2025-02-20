@@ -7,10 +7,12 @@ import com.example.quizzzin.models.entities.AbstractPuzzle;
 import com.example.quizzzin.models.entities.Comment;
 import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.repositories.CommentRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * The CommentService class provides operations for managing comments in the application.
@@ -23,10 +25,10 @@ import java.util.Optional;
  * - {@link AbstractPuzzleService}: Service for managing puzzle-related operations.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final CommentMapper commentMapper = CommentMapper.INSTANCE;
+    private final CommentMapper commentMapper;
     private final UserService userService;
     private final AbstractPuzzleService abstractPuzzleService;
 
@@ -99,5 +101,9 @@ public class CommentService {
         comment.get().setText(content);
 
         return Optional.of(commentRepository.save(comment.get()));
+    }
+
+    public List<ViewCommentDTO> mapComments(Set<Comment> comments) {
+        return commentMapper.mapViewComments(comments);
     }
 }

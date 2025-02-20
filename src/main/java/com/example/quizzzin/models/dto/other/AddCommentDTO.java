@@ -12,5 +12,9 @@ package com.example.quizzzin.models.dto.other;
  * @param idUser   The unique identifier of the user who is adding the comment. This field associates the comment with the user.
  * @param idPuzzle The unique identifier of the puzzle to which the comment is related. This field links the comment to a specific puzzle.
  */
-public record AddCommentDTO(String text, long idUser, long idPuzzle) {
+public record AddCommentDTO(
+        String text,
+        long idUser,
+        long idPuzzle
+) {
 }

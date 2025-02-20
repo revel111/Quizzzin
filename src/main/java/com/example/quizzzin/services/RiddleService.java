@@ -5,7 +5,7 @@ import com.example.quizzzin.models.dto.puzzles.add.AddRiddleDTO;
 import com.example.quizzzin.models.dto.puzzles.solve.SolveRiddleDTO;
 import com.example.quizzzin.models.entities.Riddle;
 import com.example.quizzzin.repositories.RiddleRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,11 +18,11 @@ import org.springframework.stereotype.Service;
  * - {@link RiddleMapper}: Mapper for converting between Riddle entities and DTOs.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class RiddleService {
     private final RiddleRepository riddleRepository;
     private final DifficultyService difficultyService;
-    private final RiddleMapper riddleMapper = RiddleMapper.INSTANCE;
+    private final RiddleMapper riddleMapper;
 
     /**
      * Saves a new riddle to the repository.

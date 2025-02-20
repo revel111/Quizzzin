@@ -4,7 +4,7 @@ import com.example.quizzzin.models.dto.other.RegisterUserDTO;
 import com.example.quizzzin.models.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.ReportingPolicy;
 
 /**
  * The {@code UserMapper} interface defines mappings between the {@link RegisterUserDTO} data transfer object
@@ -14,15 +14,8 @@ import org.mapstruct.factory.Mappers;
  * the user entity that represents the user in the database.
  * </p>
  */
-@Mapper
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface UserMapper {
-
-    /**
-     * Singleton instance of the {@code UserMapper}.
-     * This instance is used to access the mapping methods defined in this interface.
-     */
-    UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
-
     /**
      * Converts a {@link RegisterUserDTO} to a {@link User} entity.
      * <p>
@@ -34,6 +27,12 @@ public interface UserMapper {
      * @return A {@link User} entity with fields populated from the provided {@code RegisterUserDTO}.
      */
     @Mapping(target = "dateOfBirth", source = "dateOfBirth", dateFormat = "yyyy-MM-dd")
-    @Mapping(target = "password", source = "password")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "authoritiesList", ignore = true)
+    @Mapping(target = "puzzleScores", ignore = true)
+    @Mapping(target = "puzzleRatings", ignore = true)
+    @Mapping(target = "comments", ignore = true)
+    @Mapping(target = "accountVerified", ignore = true)
+    @Mapping(target = "authorities", ignore = true)
     User toUser(RegisterUserDTO registerUserDTO);
 }

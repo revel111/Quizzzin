@@ -1,11 +1,21 @@
 package com.example.quizzzin.models.entities;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 import java.util.Set;
 
 /**
@@ -36,8 +46,6 @@ public abstract class AbstractPuzzle {
      * The title of the puzzle.
      * The title must be between 5 and 20 characters long and cannot be blank.
      */
-    @Size(min = 5, max = 20)
-    @NotBlank
     @Column(name = "title")
     private String title;
 
@@ -45,15 +53,14 @@ public abstract class AbstractPuzzle {
      * The date and time when the puzzle was added.
      * This field is automatically set to the current date and time when the puzzle is created and is not updatable.
      */
-    @Column(name = "date_of_adding", updatable = false)
-    private LocalDateTime dateOfAdding;
+    @CreationTimestamp
+    @Column(name = "date_of_adding", columnDefinition = "TIMESTAMP", nullable = false, updatable = false)
+    private Instant dateOfAdding;
 
     /**
      * A brief description of the puzzle.
      * The description must be between 5 and 50 characters long and cannot be blank.
      */
-    @Size(min = 5, max = 50)
-    @NotBlank
     @Column(name = "description")
     private String description;
 
@@ -62,7 +69,6 @@ public abstract class AbstractPuzzle {
      * The answer cannot be blank.
      */
     @Column(name = "answer")
-    @NotBlank
     private String answer;
 
     /**
@@ -93,12 +99,4 @@ public abstract class AbstractPuzzle {
      */
     @OneToMany(mappedBy = "puzzle", fetch = FetchType.EAGER)
     private Set<Comment> comments;
-
-    /**
-     * Sets the date of adding to the current time before persisting the entity.
-     */
-    @PrePersist
-    protected void onCreate() {
-        dateOfAdding = LocalDateTime.now();
-    }
 }

@@ -3,8 +3,6 @@ package com.example.quizzzin.models.entities;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -24,8 +22,6 @@ public class Riddle extends AbstractPuzzle {
      * This field must contain between 20 and 250 characters and cannot be blank.
      * It is mapped to the "text" column in the "RIDDLE" table.
      */
-    @Size(min = 20, max = 250)
-    @NotBlank
     @Column(name = "text")
     private String text;
 }

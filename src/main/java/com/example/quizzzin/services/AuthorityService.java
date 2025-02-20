@@ -3,7 +3,7 @@ package com.example.quizzzin.services;
 import com.example.quizzzin.enums.AuthorityType;
 import com.example.quizzzin.models.entities.Authority;
 import com.example.quizzzin.repositories.AuthorityRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * - {@link AuthorityRepository}: Repository for role persistence operations.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class AuthorityService {
     private final AuthorityRepository authorityRepository;
 

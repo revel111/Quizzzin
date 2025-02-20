@@ -5,7 +5,7 @@ import com.example.quizzzin.models.dto.puzzles.solve.SolveWordleDTO;
 import com.example.quizzzin.models.entities.Wordle;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.ReportingPolicy;
 
 /**
  * The {@code WordleMapper} interface defines the mapping between the {@link Wordle} entity
@@ -15,21 +15,20 @@ import org.mapstruct.factory.Mappers;
  * and DTOs used for communication between different layers of the application.
  * </p>
  */
-@Mapper
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface WordleMapper {
-
-    /**
-     * Singleton instance of the {@code WordleMapper}.
-     * This instance is used to access the mapping methods defined in this interface.
-     */
-    WordleMapper INSTANCE = Mappers.getMapper(WordleMapper.class);
-
     /**
      * Converts an {@link AddWordleDTO} object to a {@link Wordle} entity.
      *
      * @param wordleDTO The data transfer object containing the information to be mapped to a Wordle entity.
      * @return A {@link Wordle} entity with fields populated from the provided {@code AddWordleDTO}.
      */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "dateOfAdding", ignore = true)
+    @Mapping(target = "puzzleScores", ignore = true)
+    @Mapping(target = "puzzleRatings", ignore = true)
+    @Mapping(target = "comments", ignore = true)
+    @Mapping(target = "difficulty", ignore = true)
     Wordle toWordle(AddWordleDTO wordleDTO);
 
     /**

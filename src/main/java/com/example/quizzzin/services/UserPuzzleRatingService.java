@@ -6,7 +6,7 @@ import com.example.quizzzin.models.entities.AbstractPuzzle;
 import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.models.entities.UserPuzzleRating;
 import com.example.quizzzin.repositories.UserPuzzleRatingRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -22,11 +22,11 @@ import java.util.Optional;
  * - {@link UserService}: Service for managing user-related operations.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserPuzzleRatingService {
     private final UserPuzzleRatingRepository userPuzzleRatingRepository;
     private final AbstractPuzzleService abstractPuzzleService;
-    private final UserPuzzleRatingMapper userPuzzleRatingMapper = UserPuzzleRatingMapper.INSTANCE;
+    private final UserPuzzleRatingMapper userPuzzleRatingMapper;
     private final UserService userService;
 
     /**

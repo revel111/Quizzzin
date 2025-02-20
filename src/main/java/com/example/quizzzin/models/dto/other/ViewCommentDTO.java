@@ -1,5 +1,7 @@
 package com.example.quizzzin.models.dto.other;
 
+import java.time.Instant;
+
 /**
  * The {@code ViewCommentDTO} record represents the data transfer object (DTO) used for
  * viewing comments. It encapsulates the essential details of a comment, including its
@@ -15,5 +17,11 @@ package com.example.quizzzin.models.dto.other;
  * @param dateOfAdding The date and time when the comment was added.
  * @param text         The content of the comment.
  */
-public record ViewCommentDTO(Long id, Long userId, String username, String dateOfAdding, String text) {
+public record ViewCommentDTO(
+        Long id,
+        Long userId,
+        String username,
+        Instant dateOfAdding,
+        String text
+) {
 }

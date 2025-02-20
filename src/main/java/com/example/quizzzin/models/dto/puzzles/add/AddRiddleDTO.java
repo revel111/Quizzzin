@@ -1,9 +1,9 @@
 package com.example.quizzzin.models.dto.puzzles.add;
 
+import com.example.quizzzin.enums.DifficultyType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * The {@code AddRiddleDTO} class extends {@code AddAbstractPuzzleDTO} and is used for creating
@@ -15,9 +15,46 @@ import lombok.EqualsAndHashCode;
  * specific to riddles.
  * </p>
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
-public class AddRiddleDTO extends AddAbstractPuzzleDTO {
+public class AddRiddleDTO {
+
+    /**
+     * The title of the puzzle.
+     * <p>
+     * The title must be between 5 and 20 characters in length and cannot be blank.
+     * </p>
+     */
+    @Size(min = 5, max = 20)
+    @NotBlank
+    private String title;
+
+    /**
+     * The description of the puzzle.
+     * <p>
+     * The description must be between 5 and 50 characters in length and cannot be blank.
+     * </p>
+     */
+    @Size(min = 5, max = 50)
+    @NotBlank
+    private String description;
+
+    /**
+     * The answer to the puzzle.
+     * <p>
+     * The answer cannot be blank.
+     * </p>
+     */
+    @NotBlank
+    private String answer;
+
+    /**
+     * The difficulty level of the puzzle.
+     * <p>
+     * This is represented as a {@link DifficultyType} and indicates how challenging
+     * the puzzle is.
+     * </p>
+     */
+    private DifficultyType difficultyType;
 
     /**
      * The text of the riddle.

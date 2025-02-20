@@ -1,10 +1,17 @@
 package com.example.quizzzin.models.entities;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Size;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,7 +22,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -43,8 +49,6 @@ public class User implements UserDetails {
      * The user's first name.
      * This field is required to be between 2 and 50 characters.
      */
-    @Size(min = 2, max = 50)
-    @NotBlank
     @Column(name = "name")
     private String name;
 
@@ -52,8 +56,6 @@ public class User implements UserDetails {
      * The user's last name.
      * This field is required to be between 2 and 50 characters.
      */
-    @Size(min = 2, max = 50)
-    @NotBlank
     @Column(name = "surname")
     private String surname;
 
@@ -62,7 +64,6 @@ public class User implements UserDetails {
      * This field is formatted as an ISO date.
      */
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @Past
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
@@ -70,8 +71,6 @@ public class User implements UserDetails {
      * The user's nickname.
      * This field is required to be between 1 and 25 characters.
      */
-    @Size(min = 1, max = 25)
-    @NotBlank
     @Column(name = "nickname")
     private String nickname;
 
@@ -87,14 +86,6 @@ public class User implements UserDetails {
      * The user's password.
      * This field stores the user's hashed password.
      */
-    //    @Pattern.List({
-    //            @Pattern(regexp = ".*[0-9].*"),
-    //            @Pattern(regexp = ".*[a-z].*"),
-    //            @Pattern(regexp = ".*[A-Z].*"),
-    //            @Pattern(regexp = ".*[@#$%^&+=!].*"),
-    //            @Pattern(regexp = "\\S+"),
-    //            @Pattern(regexp = ".{8,}")
-    //    })
     @Column(name = "password")
     private String password;
 
@@ -130,9 +121,6 @@ public class User implements UserDetails {
      */
     @OneToMany(mappedBy = "user")
     private Set<Comment> comments;
-
-//    @OneToMany(mappedBy = "user")
-//    private Set<SecureToken> tokens;
 
     @Column(name = "is_verified")
     private boolean accountVerified;

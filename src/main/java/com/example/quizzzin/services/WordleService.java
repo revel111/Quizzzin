@@ -5,7 +5,7 @@ import com.example.quizzzin.models.dto.puzzles.add.AddWordleDTO;
 import com.example.quizzzin.models.dto.puzzles.solve.SolveWordleDTO;
 import com.example.quizzzin.models.entities.Wordle;
 import com.example.quizzzin.repositories.WordleRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,13 +24,13 @@ import java.util.Optional;
  * - {@link WordleMapper}: Mapper for converting between Wordle entities and DTOs.
  * - {@link RestTemplate}: HTTP client for external API call
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 @Slf4j
 public class WordleService {
     private final WordleRepository wordleRepository;
     private final DifficultyService difficultyService;
-    private final WordleMapper wordleMapper = WordleMapper.INSTANCE;
+    private final WordleMapper wordleMapper;
     private final RestTemplate restTemplate;
 
     /**

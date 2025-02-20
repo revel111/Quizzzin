@@ -8,14 +8,24 @@ import com.example.quizzzin.models.entities.AbstractPuzzle;
 import com.example.quizzzin.models.entities.Riddle;
 import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.models.entities.Wordle;
-import com.example.quizzzin.services.*;
+import com.example.quizzzin.services.AbstractPuzzleService;
+import com.example.quizzzin.services.CommentService;
+import com.example.quizzzin.services.RiddleService;
+import com.example.quizzzin.services.UserPuzzleRatingService;
+import com.example.quizzzin.services.UserPuzzleScoreService;
+import com.example.quizzzin.services.UserService;
+import com.example.quizzzin.services.WordleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
@@ -42,6 +52,7 @@ public class PuzzleController {
     private final RiddleService riddleService;
     private final WordleService wordleService;
     private final UserPuzzleScoreService userPuzzleScoreService;
+    private final CommentService commentService;
 
     /**
      * Handles the HTTP GET request to view a specific puzzle.
@@ -69,6 +80,8 @@ public class PuzzleController {
             {
                 put("puzzleID", id);
                 put("abstractPuzzleDTO", abstractPuzzleService.toViewAbstractPuzzleDTO(abstractPuzzle.get()));
+                put("comments", commentService.mapComments(abstractPuzzle.get().getComments()));
+                put("scores", userPuzzleScoreService.mapUsersScores(abstractPuzzle.get().getPuzzleScores()));
                 put("userId", userId);
                 put("isSolved", userPuzzleScoreService.findByPuzzleIdAndUserId(id, userId).isPresent());
                 put("isRated", userPuzzleRatingService.findByPuzzleIdAndUserId(id, userId).isPresent());

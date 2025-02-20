@@ -38,8 +38,8 @@ public class SecureTokenService {
     }
 
     @Transactional
-    public Long deleteByToken(String token) {
-        return secureTokenRepository.deleteByToken(token);
+    public void deleteByToken(String token) {
+        secureTokenRepository.deleteByToken(token);
     }
 
     private List<SecureToken> findByDateOfExpirationBefore(LocalDateTime localDateTime) {

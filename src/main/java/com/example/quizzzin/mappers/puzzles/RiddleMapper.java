@@ -5,7 +5,7 @@ import com.example.quizzzin.models.dto.puzzles.solve.SolveRiddleDTO;
 import com.example.quizzzin.models.entities.Riddle;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.ReportingPolicy;
 
 
 /**
@@ -16,21 +16,20 @@ import org.mapstruct.factory.Mappers;
  * and DTOs used for communication between different layers of the application.
  * </p>
  */
-@Mapper
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface RiddleMapper {
-
-    /**
-     * Singleton instance of the {@code RiddleMapper}.
-     * This instance is used to access the mapping methods defined in this interface.
-     */
-    RiddleMapper INSTANCE = Mappers.getMapper(RiddleMapper.class);
-
     /**
      * Converts an {@link AddRiddleDTO} object to a {@link Riddle} entity.
      *
      * @param riddleDTO The data transfer object containing the information to be mapped to a Riddle entity.
      * @return A {@link Riddle} entity with fields populated from the provided {@code AddRiddleDTO}.
      */
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "dateOfAdding", ignore = true)
+    @Mapping(target = "difficulty", ignore = true)
+    @Mapping(target = "puzzleScores", ignore = true)
+    @Mapping(target = "puzzleRatings", ignore = true)
+    @Mapping(target = "comments", ignore = true)
     Riddle toRiddle(AddRiddleDTO riddleDTO);
 
     /**

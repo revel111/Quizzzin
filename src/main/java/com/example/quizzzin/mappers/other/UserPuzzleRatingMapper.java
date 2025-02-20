@@ -4,7 +4,7 @@ import com.example.quizzzin.models.dto.other.RatePuzzleDTO;
 import com.example.quizzzin.models.entities.UserPuzzleRating;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.ReportingPolicy;
 
 /**
  * The {@code UserPuzzleRatingMapper} interface defines mappings between the {@link UserPuzzleRating} entity
@@ -14,15 +14,8 @@ import org.mapstruct.factory.Mappers;
  * DTOs and entity objects related to user puzzle ratings.
  * </p>
  */
-@Mapper
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface UserPuzzleRatingMapper {
-
-    /**
-     * Singleton instance of the {@code UserPuzzleRatingMapper}.
-     * This instance is used to access the mapping methods defined in this interface.
-     */
-    UserPuzzleRatingMapper INSTANCE = Mappers.getMapper(UserPuzzleRatingMapper.class);
-
     /**
      * Converts a {@link RatePuzzleDTO} to a {@link UserPuzzleRating} entity.
      * <p>

@@ -12,5 +12,9 @@ package com.example.quizzzin.models.dto.other;
  * @param nickname The nickname of the user. This field represents the user's chosen display name.
  * @param score    The total score accumulated by the user. This field represents the user's performance in the puzzles.
  */
-public record LeaderboardDTO(Long userId, String nickname, long score) {
+public record LeaderboardDTO(
+        Long userId,
+        String nickname,
+        long score
+) {
 }

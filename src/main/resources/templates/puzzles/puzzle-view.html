@@ -17,11 +17,11 @@
         <p th:text="|Date of Adding: ${abstractPuzzleDTO.dateOfAdding}|"></p>
         <p th:text="|Difficulty: ${abstractPuzzleDTO.difficultyType}|"></p>
         <p th:text="|Puzzle Rating: ${abstractPuzzleDTO.rating}|"></p>
-        <div th:if="${#lists.isEmpty(abstractPuzzleDTO.leaderboardDTOList)}">
+        <div th:if="${#lists.isEmpty(scores)}">
             <p th:text="|No one solved this ${abstractPuzzleDTO.type.toLowerCase()}|"></p>
         </div>
-        <div th:unless="${#lists.isEmpty(abstractPuzzleDTO.leaderboardDTOList)}">
-            <span th:each="record, iter : ${abstractPuzzleDTO.leaderboardDTOList}">
+        <div th:unless="${#lists.isEmpty(scores)}">
+            <span th:each="record, iter : ${scores}">
                 <p th:inline="text">
                     [[${iter.index + 1}]] <a
                         th:href="@{/profile/{id}(id=${record.userId()})}">[[${record.nickname()}]]</a>:
@@ -49,14 +49,14 @@
         <div th:replace="~{boilerplates/fragments/solve-fragments :: successful (abstractSolve = ${abstractPuzzleDTO})}"></div>
 
         <div>
-            <div th:if="${#lists.isEmpty(abstractPuzzleDTO.commentDTOList)}">
+            <div th:if="${#lists.isEmpty(comments)}">
                 <h1>No comments</h1>
             </div>
-            <div th:unless="${#lists.isEmpty(abstractPuzzleDTO.commentDTOList)}">
+            <div th:unless="${#lists.isEmpty(comments)}">
                 <h1>Comments:</h1>
             </div>
             <ul id="comments-list">
-                <li th:each="comment : ${abstractPuzzleDTO.commentDTOList}"
+                <li th:each="comment : ${comments}"
                     th:attr="data-id=${comment.id}">
                     <p th:text="|${comment.username}: at ${comment.dateOfAdding}|"></p>
                     <p class="comment-text" th:text="${comment.text}"></p>

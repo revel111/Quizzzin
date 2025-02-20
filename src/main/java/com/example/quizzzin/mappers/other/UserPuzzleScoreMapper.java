@@ -5,7 +5,13 @@ import com.example.quizzzin.models.dto.other.SaveScoreDTO;
 import com.example.quizzzin.models.entities.UserPuzzleScore;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.ReportingPolicy;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * The {@code UserPuzzleScoreMapper} interface defines mappings between the {@link UserPuzzleScore} entity
@@ -15,15 +21,8 @@ import org.mapstruct.factory.Mappers;
  * and DTOs for operations related to user puzzle scores.
  * </p>
  */
-@Mapper
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface UserPuzzleScoreMapper {
-
-    /**
-     * Singleton instance of the {@code UserPuzzleScoreMapper}.
-     * This instance is used to access the mapping methods defined in this interface.
-     */
-    UserPuzzleScoreMapper INSTANCE = Mappers.getMapper(UserPuzzleScoreMapper.class);
-
     /**
      * Converts a {@link UserPuzzleScore} entity to a {@link LeaderboardDTO}.
      * <p>
@@ -52,4 +51,25 @@ public interface UserPuzzleScoreMapper {
     @Mapping(source = "puzzle.id", target = "id.puzzleId")
     @Mapping(source = "user.id", target = "id.userId")
     UserPuzzleScore toUserPuzzleScore(SaveScoreDTO saveScoreDTO);
+
+    /**
+     * Maps a set of {@link UserPuzzleScore} entities to a list of {@link LeaderboardDTO}.
+     * <p>
+     * The list is sorted in descending order by score, and the top 10 entries are included.
+     * If the set is empty, an empty list is returned.
+     * </p>
+     *
+     * @param userPuzzleScores The set of {@link UserPuzzleScore} entities to be mapped.
+     * @return A list of {@link LeaderboardDTO} objects representing the top user scores.
+     */
+    default List<LeaderboardDTO> mapUsersScores(Set<UserPuzzleScore> userPuzzleScores) {
+        if (userPuzzleScores.isEmpty())
+            return new ArrayList<>();
+
+        return userPuzzleScores.stream()
+                .map(this::toLeaderboardDTO)
+                .sorted(Comparator.comparing(LeaderboardDTO::score).reversed())
+                .limit(10)
+                .collect(Collectors.toList());
+    }
 }

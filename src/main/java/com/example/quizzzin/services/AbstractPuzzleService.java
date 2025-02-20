@@ -1,18 +1,20 @@
 package com.example.quizzzin.services;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.data.domain.*;
-import org.springframework.stereotype.Service;
-
 import com.example.quizzzin.mappers.puzzles.AbstractPuzzleMapper;
 import com.example.quizzzin.models.dto.puzzles.get.FeedViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.dto.puzzles.get.ViewAbstractPuzzleDTO;
 import com.example.quizzzin.models.entities.AbstractPuzzle;
 import com.example.quizzzin.repositories.AbstractPuzzleRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * The AbstractPuzzleService class provides operations for managing puzzles in the application.
@@ -23,11 +25,11 @@ import lombok.AllArgsConstructor;
  * - {@link AbstractPuzzleRepository}: Repository for puzzle persistence operations.
  * - {@link AbstractPuzzleMapper}: Mapper for converting between AbstractPuzzle entities and DTOs.
  */
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class AbstractPuzzleService {
     private final AbstractPuzzleRepository abstractPuzzleRepository;
-    private final AbstractPuzzleMapper abstractPuzzleMapper = AbstractPuzzleMapper.INSTANCE;
+    private final AbstractPuzzleMapper abstractPuzzleMapper;
 
     /**
      * Retrieves a paginated list of puzzles sorted by the specified criteria.

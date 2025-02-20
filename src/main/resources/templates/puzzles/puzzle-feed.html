@@ -8,20 +8,20 @@
 </head>
 <body>
 <main layout:fragment="content">
-    <div>
-        <a th:href="@{/puzzles/page/1(sortBy='difficulty',dir='desc')}">Sort by the hardest</a>
-        <br>
-        <a th:href="@{/puzzles/page/1(sortBy='difficulty',dir='asc')}">Sort by the easiest</a>
-        <br>
-        <a th:href="@{/puzzles/page/1(sortBy='date',dir='desc')}">Sort by the newest</a>
-        <br>
-        <a th:href="@{/puzzles/page/1(sortBy='date',dir='asc')}">Sort by the oldest</a>
-        <br>
-        <a th:href="@{/puzzles/page/1(sortBy='rating',dir='desc')}">Sort by the most rated</a>
-        <br>
-        <a th:href="@{/puzzles/page/1(sortBy='rating',dir='asc')}">Sort by the least rated</a>
-        <br>
-    </div>
+<!--    <div>-->
+<!--        <a th:href="@{/puzzles/page/1(sortBy='difficulty',dir='desc')}">Sort by the hardest</a>-->
+<!--        <br>-->
+<!--        <a th:href="@{/puzzles/page/1(sortBy='difficulty',dir='asc')}">Sort by the easiest</a>-->
+<!--        <br>-->
+<!--        <a th:href="@{/puzzles/page/1(sortBy='date',dir='desc')}">Sort by the newest</a>-->
+<!--        <br>-->
+<!--        <a th:href="@{/puzzles/page/1(sortBy='date',dir='asc')}">Sort by the oldest</a>-->
+<!--        <br>-->
+<!--        <a th:href="@{/puzzles/page/1(sortBy='rating',dir='desc')}">Sort by the most rated</a>-->
+<!--        <br>-->
+<!--        <a th:href="@{/puzzles/page/1(sortBy='rating',dir='asc')}">Sort by the least rated</a>-->
+<!--        <br>-->
+<!--    </div>-->
 
     <ul>
         <li th:each="puzzle : ${puzzles}">

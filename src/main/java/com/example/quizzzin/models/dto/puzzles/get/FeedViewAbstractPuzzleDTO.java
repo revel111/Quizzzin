@@ -3,7 +3,7 @@ package com.example.quizzzin.models.dto.puzzles.get;
 import com.example.quizzzin.enums.DifficultyType;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * The {@code FeedViewAbstractPuzzleDTO} class represents a Data Transfer Object (DTO) used
@@ -50,5 +50,5 @@ public class FeedViewAbstractPuzzleDTO {
     /**
      * The date and time when the puzzle was added, represented as a string.
      */
-    private String dateOfAdding;
+    private Instant dateOfAdding;
 }

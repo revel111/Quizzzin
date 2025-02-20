@@ -1,12 +1,11 @@
 package com.example.quizzzin.models.dto.puzzles.get;
 
 import com.example.quizzzin.enums.DifficultyType;
-import com.example.quizzzin.models.dto.other.ViewCommentDTO;
 import com.example.quizzzin.models.dto.other.LeaderboardDTO;
+import com.example.quizzzin.models.dto.other.ViewCommentDTO;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import java.time.Instant;
 
 /**
  * The {@code ViewAbstractPuzzleDTO} class is used for transferring data related to viewing
@@ -35,7 +34,7 @@ public class ViewAbstractPuzzleDTO {
     /**
      * The date and time when the puzzle was added, represented as a string.
      */
-    private String dateOfAdding;
+    private Instant dateOfAdding;
 
     /**
      * A description of the puzzle.
@@ -66,7 +65,7 @@ public class ViewAbstractPuzzleDTO {
      * A list of leaderboard entries, each represented as a {@link LeaderboardDTO}.
      * This list shows the top scores or rankings related to the puzzle.
      */
-    private List<LeaderboardDTO> leaderboardDTOList;
+//    private List<LeaderboardDTO> leaderboardDTOList;
 
     /**
      * A list of comments associated with the puzzle, each represented as a
@@ -74,5 +73,5 @@ public class ViewAbstractPuzzleDTO {
      * This list provides user feedback and discussions related
      * to the puzzle.
      */
-    private List<ViewCommentDTO> commentDTOList;
+//    private List<ViewCommentDTO> commentDTOList;
 }

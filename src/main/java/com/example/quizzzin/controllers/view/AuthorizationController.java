@@ -39,7 +39,6 @@ public class AuthorizationController {
     private final UserService userService;
     private final SecureTokenService secureTokenService;
     private final EmailService emailService;
-    //private final AuthenticationService authenticationService;
 
     /**
      * Displays the registration form for new users.

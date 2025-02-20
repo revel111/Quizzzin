@@ -1,9 +1,13 @@
 package com.example.quizzzin.models.entities;
 
 import com.example.quizzzin.models.embeddable.PuzzleUserKey;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.MapsId;
+import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -47,8 +51,6 @@ public class UserPuzzleRating {
      * The rating given by the user to the puzzle.
      * This field must be between 1 and 5 (inclusive).
      */
-    @Min(1)
-    @Max(5)
     @Column(name = "rating")
     private long rating;
 }

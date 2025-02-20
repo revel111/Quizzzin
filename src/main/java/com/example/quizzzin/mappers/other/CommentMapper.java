@@ -4,10 +4,15 @@ import com.example.quizzzin.models.dto.other.ViewCommentDTO;
 import com.example.quizzzin.models.entities.Comment;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.mapstruct.ReportingPolicy;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * The {@code CommentMapper} interface defines mappings between the {@link Comment} entity
@@ -18,15 +23,8 @@ import java.time.format.DateTimeFormatter;
  * and the DTO used for representing comments in views.
  * </p>
  */
-@Mapper
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface CommentMapper {
-
-    /**
-     * Singleton instance of the {@code CommentMapper}.
-     * This instance is used to access the mapping methods defined in this interface.
-     */
-    CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
-
     /**
      * Converts a {@link Comment} entity to a {@link ViewCommentDTO}.
      * <p>
@@ -40,8 +38,27 @@ public interface CommentMapper {
      */
     @Mapping(source = "user.nickname", target = "username")
     @Mapping(source = "user.id", target = "userId")
-    @Mapping(target = "dateOfAdding", expression = "java(mapDate(comment.getDateOfAdding()))")
     ViewCommentDTO toViewCommentDTO(Comment comment);
+
+    /**
+     * Maps a set of {@link Comment} entities to a list of {@link ViewCommentDTO}.
+     * <p>
+     * The list is sorted in ascending order by the date of adding. If the set is empty,
+     * an empty list is returned.
+     * </p>
+     *
+     * @param comments The set of {@link Comment} entities to be mapped.
+     * @return A list of {@link ViewCommentDTO} objects representing the comments.
+     */
+    default List<ViewCommentDTO> mapViewComments(Set<Comment> comments) {
+        if (comments.isEmpty())
+            return new ArrayList<>();
+
+        return comments.stream()
+                .map(this::toViewCommentDTO)
+                .sorted(Comparator.comparing(ViewCommentDTO::dateOfAdding))
+                .collect(Collectors.toList());
+    }
 
     /**
      * Converts a {@link LocalDateTime} to a formatted date string.

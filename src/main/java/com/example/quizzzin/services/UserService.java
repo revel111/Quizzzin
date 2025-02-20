@@ -5,7 +5,7 @@ import com.example.quizzzin.mappers.other.UserMapper;
 import com.example.quizzzin.models.dto.other.RegisterUserDTO;
 import com.example.quizzzin.models.entities.User;
 import com.example.quizzzin.repositories.UserRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,11 +25,11 @@ import java.util.Optional;
  * - {@link PasswordEncoder}: Utility for encoding user passwords.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final AuthorityService authorityService;
-    private final UserMapper userMapper = UserMapper.INSTANCE;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
 
     /**

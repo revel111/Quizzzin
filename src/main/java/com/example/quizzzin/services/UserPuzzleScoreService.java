@@ -5,12 +5,13 @@ import com.example.quizzzin.models.dto.other.LeaderboardDTO;
 import com.example.quizzzin.models.dto.other.SaveScoreDTO;
 import com.example.quizzzin.models.entities.UserPuzzleScore;
 import com.example.quizzzin.repositories.UserPuzzleScoreRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * The UserPuzzleScoreService class provides operations for managing user puzzle scores.
@@ -24,12 +25,12 @@ import java.util.Optional;
  * - {@link UserPuzzleScoreMapper}: Mapper for converting between UserPuzzleScore entities and DTOs.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserPuzzleScoreService {
     private final UserPuzzleScoreRepository userPuzzleScoreRepository;
     private final UserService userService;
     private final AbstractPuzzleService abstractPuzzleService;
-    private final UserPuzzleScoreMapper userPuzzleScoreMapper = UserPuzzleScoreMapper.INSTANCE;
+    private final UserPuzzleScoreMapper userPuzzleScoreMapper;
 
     /**
      * Retrieves the global leaderboard data, limited to the top 10 scores.
@@ -66,5 +67,9 @@ public class UserPuzzleScoreService {
 
         return userPuzzleScoreRepository.save(
                 userPuzzleScoreMapper.toUserPuzzleScore(saveScoreDTO));
+    }
+
+    public List<LeaderboardDTO> mapUsersScores(Set<UserPuzzleScore> userPuzzleScores) {
+        return userPuzzleScoreMapper.mapUsersScores(userPuzzleScores);
     }
 }

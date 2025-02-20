@@ -3,7 +3,7 @@ package com.example.quizzzin.services;
 import com.example.quizzzin.enums.DifficultyType;
 import com.example.quizzzin.models.entities.Difficulty;
 import com.example.quizzzin.repositories.DifficultyRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
  * - {@link DifficultyRepository}: Repository for difficulty persistence operations.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class DifficultyService {
     private final DifficultyRepository difficultyRepository;
 
